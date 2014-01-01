@@ -34,6 +34,7 @@ See the ".gitignore" file for the entire structure.
   * The %PATH% directory.
 
 * Modified: Added some more aliases: <config/aliases>
-  * gs, ga, clear
+  * clear = cls
+  * Git Fun!
 
 * Added: msysgit, gow, putty.
