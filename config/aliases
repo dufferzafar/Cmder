@@ -1,4 +1,6 @@
 ls=ls --color $*
 gl=git log --oneline --all --graph --decorate  $*
+gd=git diff --full-index
 ga=git add -A
 gs=git status
+clear=cls

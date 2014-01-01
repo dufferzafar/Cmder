@@ -5,9 +5,10 @@ A fork of the awesome [Cmder](https://github.com/bliker/cmder/) project.
 
 Was customizing it for myself, thought I'd just share it.
 
-I now use AHK to pass the current explorer directory as a parameter.
+I use Autohotkey to pass the current explorer directory as a parameter.
+Without which it'll launch in the directory where "Cmder.bat" is placed.
 
-I've added "msysgit", "gow", "putty" for myself. They are in the vendor folder. You can place other 3rd party stuff in the same folder.
+I've added "msysgit", "gow", "putty" for myself. They are in the vendor folder. You can place other 3rd party stuff there too.
 
 See the ".gitignore" file for the entire structure.
 
@@ -22,17 +23,17 @@ See the ".gitignore" file for the entire structure.
 
 ## <a name="changelog"></a>Changelog
 
-* Modified: ConEmu settings:
+* Modified: ConEmu settings: <config/ConEmu.xml>
   * Xterm Highlighting
   * Tabs on top
   * No Transparency Level.
   * <kbd>Alt + `</kbd> Hides the console. So does <kbd>Esc</kbd>.
   * Removed the "-new_console:d:%USERPROFILE%" part.
 
-* Modified: init.bat
+* Modified: init.bat <vendor/init.bat>
   * The %PATH% directory.
 
-* Modified: Added some more aliases:
-  * gs, ga
+* Modified: Added some more aliases: <config/aliases>
+  * gs, ga, clear
 
 * Added: msysgit, gow, putty.

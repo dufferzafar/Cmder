@@ -27,7 +27,7 @@
 @%rootDir%\vendor\clink\clink_x%architecture%.exe inject --quiet --profile %rootDir%\config
 
 :: Prepare for msysgit
-:: I do not even know, copy-pasted from their .bat
+:: Even I don't know, copy-pasted from their .bat
 @set PLINK_PROTOCOL=ssh
 @if not defined TERM set TERM=msys
 
