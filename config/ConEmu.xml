@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2014-01-01 19:13:30" build="131107">
+		<key name=".Vanilla" modified="2014-01-01 22:47:50" build="131107">
 			<value name="ColorTable00" type="dword" data="00000000"/>
 			<value name="ColorTable01" type="dword" data="00ee0000"/>
 			<value name="ColorTable02" type="dword" data="0000cd00"/>
@@ -92,7 +92,7 @@
 			<value name="Multi.AutoCreate" type="hex" data="00"/>
 			<value name="Multi.LeaveOnClose" type="hex" data="00"/>
 			<value name="Multi.HideOnClose" type="hex" data="00"/>
-			<value name="Multi.MinByEsc" type="hex" data="01"/>
+			<value name="Multi.MinByEsc" type="hex" data="02"/>
 			<value name="MapShiftEscToEsc" type="hex" data="01"/>
 			<value name="Multi.Iterate" type="hex" data="01"/>
 			<value name="Multi.SplitWidth" type="hex" data="04"/>
@@ -186,7 +186,7 @@
 			<value name="SendAltPrintScrn" type="hex" data="00"/>
 			<value name="SendPrintScrn" type="hex" data="00"/>
 			<value name="SendCtrlEsc" type="hex" data="00"/>
-			<value name="Min2Tray" type="hex" data="01"/>
+			<value name="Min2Tray" type="hex" data="00"/>
 			<value name="AlwaysShowTrayIcon" type="hex" data="01"/>
 			<value name="SafeFarClose" type="hex" data="01"/>
 			<value name="SafeFarCloseMacro" type="string" data=""/>
@@ -483,9 +483,9 @@
 			<value name="DndLKey" type="hex" data="00"/>
 			<value name="DndRKey" type="hex" data="a2"/>
 			<value name="WndDragKey" type="dword" data="00121101"/>
-				<key name="Tasks" modified="2014-01-01 19:13:31" build="131107">
+				<key name="Tasks" modified="2014-01-01 22:47:51" build="131107">
 				<value name="Count" type="dword" data="00000003"/>
-						<key name="Task1" modified="2014-01-01 19:13:31" build="131107">
+						<key name="Task1" modified="2014-01-01 22:47:51" build="131107">
 					<value name="Name" type="string" data="{cmd}"/>
 					<value name="GuiArgs" type="string" data=" /icon &quot;cmd.exe&quot;"/>
 					<value name="Cmd1" type="string" data="cmd /k %CMDER_ROOT%\vendor\init.bat"/>
@@ -493,7 +493,7 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-						<key name="Task2" modified="2014-01-01 19:13:31" build="131107">
+						<key name="Task2" modified="2014-01-01 22:47:51" build="131107">
 					<value name="Name" type="string" data="{PowerShell}"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;%userprofile%&quot;"/>
 					<value name="Cmd1" type="string" data="powershell"/>
@@ -501,20 +501,20 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-						<key name="Task3" modified="2014-01-01 19:13:31" build="131107">
+						<key name="Task3" modified="2014-01-01 22:47:51" build="131107">
 					<value name="Name" type="string" data="{Putty}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>
-					<value name="Cmd1" type="string" data="putty.exe"/>
+					<value name="Cmd1" type="string" data="%CMDER_ROOT%\vendor\putty\putty.exe"/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
 			</key>
-				<key name="Apps" modified="2014-01-01 19:13:31" build="131107">
+				<key name="Apps" modified="2014-01-01 22:47:51" build="131107">
 				<value name="Count" type="dword" data="00000000"/>
 			</key>
-				<key name="Colors" modified="2014-01-01 19:13:31" build="131107">
-			<key name="Palette1" modified="2014-01-01 19:13:31" build="131107">
+				<key name="Colors" modified="2014-01-01 22:47:51" build="131107">
+			<key name="Palette1" modified="2014-01-01 22:47:51" build="131107">
 					<value name="Name" type="string" data="Monokai"/>
 					<value name="ExtendColors" type="hex" data="00"/>
 					<value name="ExtendColorIdx" type="hex" data="0e"/>
