@@ -1,0 +1,31 @@
+# +++++++++++++++++++++++++++++++++++ #
+# dufferzafar's flavor of the Cmder   #
+# +++++++++++++++++++++++++++++++++++ #
+
+# Lines beginning with # are comments
+
+# The directory structure:
+
+# This folder will be injected into path at runtime
+# bin/
+
+# All config files are in this folder
+# config/
+
+# This file contains the history of commands...
+config/.history
+
+# The valve icon is super cool
+# icons/
+
+# Software from third parties + the cool 'init' script
+vendor/
+
+# Portable Git
+vendor/msysgit
+
+# Oh my ssh!
+vendor/putty
+
+# Who needs cygwin...
+vendor/gow

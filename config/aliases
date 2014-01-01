@@ -1,0 +1,4 @@
+ls=ls --color $*
+gl=git log --oneline --all --graph --decorate  $*
+ga=git add -A
+gs=git status
