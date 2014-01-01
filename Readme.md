@@ -19,6 +19,10 @@ See the ".gitignore" file for the entire structure.
 
 ## <a name="todo"></a>Todo
 
+* Ctrl+PgUp/PgDn should be used to Cycle through Tabs as Shift+PgUp/PgDn is already available for scrolling the window.
+
+* Enabled Keyboard Text Selection.
+
 * Learn Inno Setup Script to create a Setup?
 
 ## <a name="changelog"></a>Changelog
@@ -26,7 +30,7 @@ See the ".gitignore" file for the entire structure.
 * Modified: ConEmu settings: <config/ConEmu.xml>
   * Xterm Highlighting
   * Tabs on top
-  * No Transparency Level.
+  * No Transparency.
   * <kbd>Alt + `</kbd> Hides the console. So does <kbd>Esc</kbd>.
   * Removed the "-new_console:d:%USERPROFILE%" part.
 

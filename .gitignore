@@ -2,8 +2,6 @@
 # dufferzafar's flavor of the Cmder   #
 # +++++++++++++++++++++++++++++++++++ #
 
-# Lines beginning with # are comments
-
 # The directory structure:
 
 # This folder will be injected to path at runtime
@@ -30,6 +28,11 @@ config/.history
 
 # ConEmu: The heart of Cmder
 # vendor/conemu-maximus5
+
+# Todo: Add more cool stuff and their download URLs here.
+
+# I am ignoring these folders as you'd be better off
+# downloading them from their original location.
 
 # Portable Git
 vendor/msysgit

@@ -1,7 +1,8 @@
 clear=cls
 ls=ls --color $*
-gl=git log --oneline --all --decorate $*
+gl=git log -n 35 --oneline --decorate $*
 gd=git diff --full-index $*
 ga=git add -A $*
 gs=git status $*
 gc=git commit -m $*
+gh=git help $*

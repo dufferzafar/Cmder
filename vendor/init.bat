@@ -31,9 +31,13 @@
 @set PLINK_PROTOCOL=ssh
 @if not defined TERM set TERM=msys
 
-:: Enhance Path
 @set git_install_root=%rootDir%\vendor\msysgit
-@set PATH=%PATH%;%rootDir%\vendor\putty;%rootDir%\bin;%git_install_root%\bin;%git_install_root%\cmd;%git_install_root%\share\vim\vim73;
+
+:: Add 3rd Party Stuff
+@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;%rootDir%\vendor\gow\bin;
+
+:: Used by "git"
+@set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;%git_install_root%\share\vim\vim73;
 
 :: Add aliases
 :: These little thingies are life savers, believe me.
