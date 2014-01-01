@@ -31,5 +31,7 @@ See the ".gitignore" file for the entire structure.
 * Modified: init.bat
   * The %PATH% directory.
 
-* Modified: Added some more aliases.
+* Modified: Added some more aliases:
+  * gs, ga
+
 * Added: msysgit, gow, putty.
