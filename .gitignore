@@ -28,14 +28,14 @@ config/.history
 # Clink is used to give your console a bash-ish feel.
 # vendor/clink
 
-# ConEmu
-vendor/conemu-maximus5
+# ConEmu: The heart of Cmder
+# vendor/conemu-maximus5
 
 # Portable Git
 vendor/msysgit
 
-# Oh my ssh!
-vendor/putty
-
 # Who needs cygwin...
 vendor/gow
+
+# Oh my ssh!
+vendor/putty
