@@ -5,6 +5,8 @@ A fork of the awesome [Cmder](https://github.com/bliker/cmder/) project.
 
 Was customizing it for myself, thought I'd just share it.
 
+I now use AHK to pass the current explorer directory as a parameter.
+
 I've added "msysgit", "gow", "putty" for myself. They are in the vendor folder. You can place other 3rd party stuff in the same folder.
 
 See the ".gitignore" file for the entire structure.
@@ -16,8 +18,6 @@ See the ".gitignore" file for the entire structure.
 
 ## <a name="todo"></a>Todo
 
-* Launch Cmder in current directory.
-
 * Learn Inno Setup Script to create a Setup?
 
 ## <a name="changelog"></a>Changelog
@@ -27,6 +27,7 @@ See the ".gitignore" file for the entire structure.
   * Tabs on top
   * No Transparency Level.
   * <kbd>Alt + `</kbd> Hides the console. So does <kbd>Esc</kbd>.
+  * Removed the "-new_console:d:%USERPROFILE%" part.
 
 * Modified: init.bat
   * The %PATH% directory.
