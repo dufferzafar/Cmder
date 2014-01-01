@@ -12,7 +12,7 @@ See the ".gitignore" file for the entire structure.
 ## Table of Contents
 
 * [Todo](#todo)
-* [Changelog](#changelog)
+* [What has been changed?](#changelog)
 
 ## <a name="todo"></a>Todo
 
@@ -25,7 +25,8 @@ See the ".gitignore" file for the entire structure.
 * Modified: ConEmu settings:
   * Xterm Highlighting
   * Tabs on top
-  * 
+  * No Transparency Level.
+  * <kbd>Alt + `</kbd> Hides the console. So does <kbd>Esc</kbd>.
 
 * Modified: init.bat
   * The %PATH% directory.
