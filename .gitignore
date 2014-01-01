@@ -18,11 +18,15 @@ config/.history
 # The valve icon is super cool
 # icons/
 
+# Bring back the executables (they are ignored in the global gitignore file)
+!*.exe
+!*.dll
+
 # Software from third parties + the cool 'init' script
 # vendor/
 
 # Clink is used to give your console a bash-ish feel.
-vendor/clink
+# vendor/clink
 
 # ConEmu
 vendor/conemu-maximus5
@@ -35,6 +39,3 @@ vendor/putty
 
 # Who needs cygwin...
 vendor/gow
-
-# Bring back the exes
-# !*.exe

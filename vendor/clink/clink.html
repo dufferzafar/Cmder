@@ -1,0 +1,1599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>Clink</title>
+<style type="text/css">
+/*
+ * AsciiDoc 'volnitsky' theme for xhtml11 and html5 backends.
+ * Based on css from http://volnitsky.com, which was in turn based on default
+ * theme from AsciiDoc
+ *
+ * FIXME: The styling is still a bit rough in places.
+ *
+ */
+
+/* Default font. */
+body {
+  font-family: Georgia,"Times New Roman",Times,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Candara,Arial,sans-serif;
+}
+
+
+#toc a {
+    border-bottom: 1px dotted #999999;
+    color: #3A3A4D !important;
+    text-decoration: none !important;
+}
+#toc a:hover {
+    border-bottom: 1px solid #6D4100;
+    color: #6D4100 !important;
+    text-decoration: none !important;
+}
+a { color: #666688; text-decoration: none; border-bottom: 1px dotted #666688; }
+a:visited { color: #615FA0; border-bottom: 1px dotted #615FA0; }
+a:hover { color: #6D4100; border-bottom: 1px solid #6D4100; }
+
+em {
+  font-style: italic;
+  color: #444466;
+}
+
+strong {
+  font-weight: bold;
+  color: #444466;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #666688;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+  letter-spacing:+0.15em;
+}
+
+h1 { border-bottom: 2px solid #668; }
+h2 { border-bottom: 1px solid #668; }
+h2 { padding-top: 0.5em; }
+h3 { border-bottom: 2px solid #ccd; }
+h3 { float: left; }
+h3 + * { clear: left; }
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid #444466;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+#author {
+  color: #444466;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+div.admonitionblock {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #444466;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid silver;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid silver;
+  background: #f4f4f4;
+  padding: 0.5em;
+}
+
+div.quoteblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock {
+  padding-left: 2.0em;
+  margin-right: 10%;
+}
+div.verseblock > pre.content {
+  font-family: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #444466;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 2px solid silver;
+}
+
+div.exampleblock > div.content {
+  border-left: 2px solid silver;
+  padding: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: #444466;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: 3px solid #444466;
+}
+thead {
+  font-weight: bold;
+  color: #444466;
+}
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: #444466;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toctitle {
+  color: #666688;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 { margin-top: 0; margin-bottom: 0; }
+div.toclevel1 { margin-top: 0.3em; margin-left: 0; font-size: 1.0em; }
+div.toclevel2 { margin-top: 0.25em; margin-left: 2em; font-size: 0.9em; }
+div.toclevel3 { margin-left: 4em; font-size: 0.8em; }
+div.toclevel4 { margin-left: 6em; font-size: 0.8em; }
+
+body {
+  margin: 1em 5%;
+  max-width:  35em;
+  padding-left: 0;
+  font-size: 0.9em;
+}
+
+.monospaced, tt, div.listingblock > div.content {
+  font-family:  Consolas, "Andale Mono", "Courier New", monospace;
+  color: #004400;
+  background: #f4f4f4;
+  max-width: 35em;
+  line-height: 1.2em;
+}
+
+.paragraph p  {
+  line-height: 1.5em;
+  margin-top: 1em;
+}
+
+.paragraph p, li, dd, .content { max-width: 35em; }
+.admonitionblock               { max-width: 27em; }
+
+div.sectionbody div.ulist > ul > li {
+  list-style-type: square;
+  color: #aaa;
+}
+  div.sectionbody div.ulist >  ul > li > * {
+    color: black;
+    /*font-size: 50%;*/
+  }
+
+
+div.sectionbody div.ulist > ul > li div.ulist > ul > li {
+  color: #ccd ;
+}
+  div.sectionbody div.ulist > ul > li div.ulist > ul > li > * {
+    color: black ;
+  }
+
+em {
+  font-style: normal ! important;
+  font-weight: bold ! important;
+  color: #662222   ! important;
+  letter-spacing:+0.08em ! important;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #666688;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #444466;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #444466;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+div.paragraph.indented p {padding-left: 2em;}
+
+
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([1-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName.toLowerCase() == 'div' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(2);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<h1>Clink</h1>
+<span id="author">Martin Ridgers</span><br />
+<span id="email"><code>&lt;<a href="mailto:martin.ridgers+clink@gmail.com">martin.ridgers+clink@gmail.com</a>&gt;</code></span><br />
+<span id="revdate">v0.3.1</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_what_is_clink">What is Clink?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><a href="http://code.google.com/p/clink">http://code.google.com/p/clink</a></p></div>
+<div class="paragraph"><p>Clink combines the native Windows shell cmd.exe with the powerful command line
+editing features of the GNU Readline library, which provides rich completion,
+history, and line-editing capabilities. Readline is best known its use in the
+famous Unix shell Bash, the standard shell for Mac OS X and many Linux
+distributions.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_features">Features</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Powerful Bash-like line editing from the GNU Readline library.
+</p>
+</li>
+<li>
+<p>
+Scriptable completion using Lua.
+</p>
+</li>
+<li>
+<p>
+Improved path and context-sensitive completion (<em>TAB</em>).
+</p>
+</li>
+<li>
+<p>
+Paste from clipboard (<em>Ctrl-V</em>).
+</p>
+</li>
+<li>
+<p>
+Undo/Redo (<em>Ctrl-_</em> or <em>Ctrl-X_Ctrl-U</em>)
+</p>
+</li>
+<li>
+<p>
+Improved command line history.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Persists across sessions.
+</p>
+</li>
+<li>
+<p>
+Searchable (<em>Ctrl-R</em> and <em>Ctrl-S</em>).
+</p>
+</li>
+<li>
+<p>
+History expansion (e.g. !!, !&lt;string&gt;, and !$).
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+<div class="paragraph"><p>More features can be found in the
+<a href="http://cnswww.cns.cwru.edu/php/chet/readline/rluserman.html#SEC3">Readline</a> and
+<a href="http://cnswww.cns.cwru.edu/php/chet/readline/history.html#SEC3">History</a>
+manuals.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_usage">Usage</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There are three ways to use Clink the first of which is to add Clink to
+cmd.exe&#8217;s autorun registry entry. This can be selected when installing Clink
+using the installer and Clink also provides the ability to manage this autorun
+entry from the command line. Running <em>clink autorun --help</em> has more
+information.</p></div>
+<div class="paragraph"><p>The second alternative is to manually run Clink using the command <em>clink
+inject</em> from within a command prompt session to run Clink in that session.</p></div>
+<div class="paragraph"><p>The last option is to use the Clink shortcut that the installer adds to
+Windows' start menu. This is in essence a shortcut to the command <em>cmd.exe /k
+clink inject</em>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_how_clink_works">How Clink Works</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When running Clink via the methods above, Clink checks the parent process is
+supported and injects a DLL into it. The DLL then hooks the WriteConsole() and
+ReadConsole() Windows functions. The former is so that Clink can capture the
+current prompt, and the latter hook allows Clink to provide it&#8217;s own
+Readline-powered command line editing.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuring_clink">Configuring Clink</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Configuring Clink by and large involves configuring Readline by creating a
+<em>clink_inputrc</em> file. There is excellent documentation for all the options
+available to configure Readline in the
+<a href="http://cnswww.cns.cwru.edu/php/chet/readline/rluserman.html">Readline Manual</a>.</p></div>
+<div class="paragraph"><p>Where Clink looks for <em>clink_inputrc</em> (as well as .lua scripts and the settings
+file) depends on which distribution of Clink was used. If you installed Clink
+using the .exe installer then Clink uses the current user&#8217;s non-roaming
+application data folder. This user directory is usually found in one of the
+following locations;</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+c:\documents and settings\&lt;username&gt;\local settings\application data (XP)
+</p>
+</li>
+<li>
+<p>
+c:\users\&lt;username&gt;\appdata\local (Vista onwards)
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The .zip distribution of Clink uses a <em>profile</em> folder in the same folder where
+Clink&#8217;s core files are found.</p></div>
+<div class="paragraph"><p>All of the above locations can be overriden using the <em>--profile &lt;path&gt;</em>
+command line option which is specified when injecting Clink into cmd.exe using
+<em>clink inject</em>.</p></div>
+<div class="sect2">
+<h3 id="_settings">Settings</h3>
+<div class="paragraph"><p>It is also possible to configure settings specific to Clink. These are stored
+in a file called <em>settings</em> which is found in one of the locations mentioned in
+the previous section. The settings file gets created the first time Clink is
+run.</p></div>
+<div class="paragraph"><p>The following table describes the available settings;</p></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="left" valign="top"><p class="table">ctrld_exits</p></td>
+<td align="left" valign="top"><p class="table">Ctrl-D exits the process when it is pressed on an empty line.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">esc_clears_line</p></td>
+<td align="left" valign="top"><p class="table">Clink clears the current line when Esc is pressed (unless Readline&#8217;s Vi mode is enabled).</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">exec_match_style</p></td>
+<td align="left" valign="top"><p class="table">Changes how Clink will match executables when there is no path separator on the line. 0 = PATH only, 1 = PATH and CWD, 2 = PATH, CWD, and directories. In all cases both executables and directories are matched when there is a path separator present.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">match_colour</p></td>
+<td align="left" valign="top"><p class="table">Colour to use when displaying matches. A value less than 0 will be the opposite brightness of the default colour.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">passthrough_ctrlc</p></td>
+<td align="left" valign="top"><p class="table">When Ctrl-C is pressed Clink will pass it thourgh to the parent.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">prompt_colour</p></td>
+<td align="left" valign="top"><p class="table">Surrounds the prompt in ANSI escape codes to set the prompt&#8217;s colour. Disabled when the value is less than 0.</p></td>
+</tr>
+<tr>
+<td align="left" valign="top"><p class="table">terminate_autoanswer</p></td>
+<td align="left" valign="top"><p class="table">Automatically answers cmd.exe&#8217;s <em>Terminate batch job (Y/N)?</em> prompts. 0 = disabled, 1 = answer <em>Y</em>, 2 = answer <em>N</em>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_extending_clink">Extending Clink</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Readline library allows clients to offer an alternative path for creating
+completion matches. Clink uses this to hook Lua into the completion process
+making it possible to script the generation of matches with Lua scripts. The
+following sections describe this in more detail and shows some examples.</p></div>
+<div class="sect2">
+<h3 id="_the_location_of_lua_scripts">The Location of Lua Scripts</h3>
+<div class="paragraph"><p>Clink looks for Lua scripts in the folders as described in the
+<a href="#_configuring_clink">Configuring Clink</a> section. By default <em>Ctrl-Q</em> is mapped
+to reload all Lua scripts which can be useful when developing and iterating on
+your own scripts.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_match_generators">Match Generators</h3>
+<div class="paragraph"><p>These are Lua functions that are registered with Clink and are called as part
+of Readline&#8217;s completion process. Match generator functions take the following
+form;</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>function my_match_generator(text, first, last)
+    -- Use text/rl_line_buffer to create matches,
+    -- Submit matches to Clink using clink.add_match()
+    -- Return true/false.
+end</code></pre>
+</div></div>
+<div class="paragraph"><p><em>Text</em> is the word that is being completed, <em>first</em> and <em>last</em> and the indices
+into the complete line buffer for <em>text</em> (the full line buffer can be accessed
+using the variable <em>rl_line_buffer</em>). If no further match generators need to be
+called then the function should return true.</p></div>
+<div class="paragraph"><p>Registering the match generation function is done as follows;</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>clink.register_match_generator(my_match_generator, sort_id)</code></pre>
+</div></div>
+<div class="paragraph"><p>The <em>sort_id</em> argument is used to sort the match generators such that
+generators with a lower sort ids are called first.</p></div>
+<div class="paragraph"><p>Here is an simple example script that checks if <em>text</em> begins with a <em>%</em>
+character and then uses the remained of <em>text</em> to match the names of
+environment variables.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>function env_vars_match_generator(text, first, last)
+    if not text:find("^%%") then
+        return false
+    end
+
+    text = clink.lower(text:sub(2))
+    local text_len = #text
+    for _, name in ipairs(clink.get_env_var_names()) do
+        if clink.lower(name:sub(1, text_len)) == text then
+            clink.add_match('%'..name..'%')
+        end
+    end
+
+    return true
+end
+
+clink.register_match_generator(env_vars_match_generator, 10)</code></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_argument_completion">Argument Completion</h3>
+<div class="paragraph"><p>Build on top of the match generation path is a framework for scripting
+completion of specific commands. It leaves Clink to take care of matching the
+command and is driven by a tree to further facilitate contextual completion.</p></div>
+<div class="paragraph"><p><em>It is fair to say that is fairly experimental and likely to change in the
+future as the framework matures through use.</em></p></div>
+<div class="paragraph"><p>Argument match generators are registered in a similar fashion to basic match
+generators, passing the name of the command in <em>command_name</em> and the tree that
+drives the completion step in <em>tree</em>.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>clink.arg.register_tree(command_name, tree)</code></pre>
+</div></div>
+<div class="paragraph"><p>The most basic of tree is one that is just a function as a single node/leaf.
+When Clink encounters a function in a tree it is called just like a match
+generator function, taking the same arguments and expecting the same return
+value.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>function clink_match_generator(text, first, last)
+    clink.add_match("--help")
+    return true
+end
+
+clink.arg.register_tree("clink", clink_match_generator)</code></pre>
+</div></div>
+<div class="paragraph"><p>More complex trees can be built using Lua tables. Clink divides the current
+line buffer into words and uses these as keys into the Lua table.  If the key
+has a value (i.e. it is a node in the tree) then traversal of the tree
+continues with that value and the next word in the line buffer.</p></div>
+<div class="paragraph"><p>Clink will automatically generate matches for keys and array values once it has
+traversed as far as it can into the argument tree.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>clink_arg_tree = {
+    "--help",
+    inject = { "--scripts", "--help", "--quiet" },
+    autorun = { "--install", "--uninstall" },
+}
+
+clink.arg.register_tree("clink", clink_arg_tree)</code></pre>
+</div></div>
+<div class="paragraph"><p>In the above example the root node has three branches; "--help", "inject" and
+"autorun". If the first word of the line buffer (after the command of course)
+matches either of these then traversal continues into their values. Here
+"--help" is actually an array item and thus forms a leaf of the tree so it
+would be considered a match.</p></div>
+<div class="paragraph"><p>If tree traversal doesn&#8217;t generate any matches then Readline&#8217;s default file
+name match generation is used.</p></div>
+<div class="paragraph"><p>Traversal can be controlled by tagging tree nodes with behavioural semantics.
+There is a helper function in Clink&#8217;s Lua API to help with this and ensure
+nodes with behaviour are constructed correctly; <em>clink.arg.tree_node()</em>.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>clink_arg_tree = clink.arg.tree_node("*", {
+    "--help",
+    inject = clink.arg.tree_node("*+", {
+        "--scripts", "--help", "--quiet"
+    }),
+    autorun = clink.arg.tree_node("*+", {
+        "--install", "--uninstall"
+    }),
+})
+
+clink.arg.register_tree("clink", clink_arg_tree)</code></pre>
+</div></div>
+<div class="paragraph"><p>A <strong>&#8216;*&#8217;</strong> in the behaviour string will cause the deepest node achievable to
+repeat as opposed to defaulting back to Readline&#8217;s file name match generation.</p></div>
+<div class="paragraph"><p>A <strong>&#8216;-&#8217;</strong> tells Clink that the user must have typed at least one character before
+this node can be considered for match generation. This is useful in situations
+where mixing arguments and Readline&#8217;s file name match generation is desirable.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_filtering_the_match_display">Filtering The Match Display</h3>
+<div class="paragraph"><p>In some instances it may be preferable to display potential matches in an
+alternative form than the generated matches passed to and used internally by
+Readline. This happens for example with Readline&#8217;s standard file name matches,
+where the matches are the whole word being completed but only the last part of
+the path is shown (e.g. the match <em>foo/bar</em> is displayed as <em>bar</em>).</p></div>
+<div class="paragraph"><p>To facilitate custom match generators that may wish to do this there is the
+<em>clink.match_display_filter</em> variable. This can be set to a function that will
+then be called before matches are to be displayed.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>function my_display_filter(matches)
+    new_matches = {}
+
+    for _, m in ipairs(matches) do
+        local _, _, n = m:find("\\([^\\]+)$")
+        table.insert(new_matches, n)
+    end
+
+    return new_matches
+end
+
+function my_match_generator(text, first, last)
+    ...
+
+    clink.match_display_filter = my_display_filter
+    return true
+end</code></pre>
+</div></div>
+<div class="paragraph"><p>The function&#8217;s single argument <em>matches</em> is a table containing what Clink is
+going to display. The return value is a table with the input matches filtered
+as required by the match generator. The value of <em>clink.match_display_filter</em>
+is reset every time match generation is invoked.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_customising_the_prompt">Customising The Prompt</h3>
+<div class="paragraph"><p>Before Clink displays the prompt it filters the prompt through Lua so that the
+prompt can be customised. This happens each and every time that the prompt is
+shown which allows for context sensitive customisations (such as showing the
+current branch of a git repository for example).</p></div>
+<div class="paragraph"><p>Writing a prompt filter is straight forward and best illustrated with an
+example that displays the current git branch when the current directory is a
+git repository.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>function git_prompt_filter()
+    for line in io.popen("git branch 2&gt;nul"):lines() do
+        local m = line:match("%* (.+)$")
+        if m then
+            clink.prompt.value = "["..m.."] "..clink.prompt.value
+            break
+        end
+    end
+
+    return false
+end
+
+clink.prompt.register_filter(git_prompt_filter, 50)</code></pre>
+</div></div>
+<div class="paragraph"><p>The filter function takes no arguments instead receiving and modifying the
+prompt through the <em>clink.prompt.value</em> variable. It returns true if the prompt
+filtering is finished, and false if it should continue on to the next
+registered filter.</p></div>
+<div class="paragraph"><p>A filter function is registered into the filter chain by passing the function
+to <em>clink.prompt.register_filter()</em> along with a sort id which dictates the
+order in which filters are called. Lower sort ids are called first.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_clink_lua_api">The Clink Lua API</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_matches">Matches</h3>
+<div class="sect3">
+<h4 id="_clink_add_match_text">clink.add_match(text)</h4>
+<div class="paragraph indented"><p>Outputs <em>text</em> as a match for the active completion.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_compute_lcd_text_matches">clink.compute_lcd(text, matches)</h4>
+<div class="paragraph indented"><p>Returns the least-common-denominator of <em>matches</em>. It is assumed that <em>text</em>
+was the input to generate <em>matches</em>. As such it is expected that each match
+starts with <em>text</em>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_match_index">clink.get_match(index)</h4>
+<div class="paragraph indented"><p>Returns a match by <em>index</em> from the matches output by clink.add_match().</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_is_match_needle_candidate">clink.is_match(needle, candidate)</h4>
+<div class="paragraph indented"><p>Given a <em>needle</em> (such as the section of the current line buffer being
+completed), this function returns true or false if <em>candidate</em> begins with
+<em>needle</em>. Readline&#8217;s -/_ case-mapping is respected if it is enabled.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_is_single_match_matches">clink.is_single_match(matches)</h4>
+<div class="paragraph indented"><p>Checks each match in the table <em>matches</em> and checks to see if they are all
+duplicates of each other.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_match_count">clink.match_count()</h4>
+<div class="paragraph indented"><p>Returns the number of matches output by calls to clink.add_match().</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_match_display_filter">clink.match_display_filter</h4>
+<div class="paragraph indented"><p>This variable can be set to a function so that matches can be filtered before
+they are displayed. See <a href="#_filtering_the_match_display">display filtering</a>
+section for more info.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_matches_are_files">clink.matches_are_files()</h4>
+<div class="paragraph indented"><p>Tells Readline that the matches we are passing back to it are files. This will
+cause Readline to append the path separator character to the line if there&#8217;s
+only one match, and mark directories when displaying multiple matches.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_register_match_generator_generator_sort_id">clink.register_match_generator(generator, sort_id)</h4>
+<div class="paragraph indented"><p>Registers a match <em>generator</em> function that is called to generate matches when
+the complete keys is press (TAB by default).</p></div>
+<div class="paragraph indented"><p>The generator function takes the form <em>generator_function(text, first, last)</em>
+where <em>text</em> is the portion of the line buffer that is to be completed, <em>first</em>
+and <em>last</em> are the start and end indices into the line buffer for <em>text</em>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_set_match_index_value">clink.set_match(index, value)</h4>
+<div class="paragraph indented"><p>Explicitly sets match at <em>index</em> to <em>value</em>.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_argument_framework">Argument Framework</h3>
+<div class="sect3">
+<h4 id="_clink_arg_register_tree_cmd_tree">clink.arg.register_tree(cmd, tree)</h4>
+<div class="paragraph indented"><p>Registers an argument <em>tree</em> for a specific command. When completion is requested
+and Clink finds <em>cmd</em> at the beginning of the line it will use the current line
+state to traverse this tree and generate matches.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_arg_tree_node_flags_content">clink.arg.tree_node(flags, content)</h4>
+<div class="paragraph indented"><p>Nodes in an argument tree can be tagged with special characters to control the
+traversal and completion behaviour of that node&#8217;s tree branch. This function
+helps to construct such a tree node. It returns a tree node with the sub-tree
+<em>content</em> and with the branch properties specified by <em>flags</em>. See
+<a href="#_argument_completion">Argument Completion</a> for details of how to use the
+<em>flags</em> argument.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_arg_node_merge_a_b">clink.arg.node_merge(a, b)</h4>
+<div class="paragraph indented"><p>Merges <em>a</em> and <em>b</em> into a new table and returns it.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_arg_node_transpose_a_b">clink.arg.node_transpose(a, b)</h4>
+<div class="paragraph indented"><p>Returns a table that uses the strings in array a as the keys, and argument b as
+the values. So for example this&#8230;</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>a = { "one", "two", "three" }
+b = 1234
+c = clink.arg.node_transpose(a, b)</code></pre>
+</div></div>
+<div class="paragraph indented"><p>&#8230;will return the following;</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>c = { one = 1234, two = 1234, three = 1234 }</code></pre>
+</div></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_prompt_filtering">Prompt Filtering</h3>
+<div class="sect3">
+<h4 id="_clink_prompt_register_filter_filter_sort_id">clink.prompt.register_filter(filter, sort_id)</h4>
+<div class="paragraph indented"><p>Used to register a <em>filter</em> function to pre-process the prompt before use by
+Readline. Filters are called by <em>sort_id</em> where lower sort ids get called
+first. Filter functions will receive no arguments and return true if filtering
+is finished. Getting and setting the prompt value is done through the
+<em>clink.prompt.value</em> variable.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_prompt_value">clink.prompt.value</h4>
+<div class="paragraph indented"><p>User-provided prompt filter functions can get and set the prompt value using
+this variable.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_miscelaneous">Miscelaneous</h3>
+<div class="sect3">
+<h4 id="_clink_chdir_path">clink.chdir(path)</h4>
+<div class="paragraph indented"><p>Changes the current working directory to <em>path</em>. Clink caches and restores the
+working directory between calls to the match generation so that it does not
+interfere with the processes normal operation.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_find_dirs_mask_case_map">clink.find_dirs(mask, case_map)</h4>
+<div class="paragraph indented"><p>Returns a table (array) of directories that match the supplied <em>mask</em>. If
+<em>case_map</em> is <em>true</em> then Clink will adjust the last part of the mask&#8217;s path so
+that returned matches respect Readline&#8217;s case-mapping feature (if it is
+enabled). For example; <em>.\foo_foo\bar_bar*</em> becomes <em>.\foo_foo\bar?bar*</em>.</p></div>
+<div class="paragraph"><p>There is no support for recursively traversing the path in <em>mask</em>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_find_files_mask_case_map">clink.find_files(mask, case_map)</h4>
+<div class="paragraph indented"><p>Returns a table (array) of files that match the supplied <em>mask</em>. See
+<em>find_dirs</em> for details on the <em>case_map</em> argument.</p></div>
+<div class="paragraph"><p>There is no support for recursively traversing the path in <em>mask</em>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_cwd">clink.get_cwd()</h4>
+<div class="paragraph indented"><p>Returns the current working directory.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_env_env_var_name">clink.get_env(env_var_name)</h4>
+<div class="paragraph indented"><p>Returns the value of the environment variable <em>env_var_name</em>. This is
+preferable to the built-in Lua function os.getenv() as the latter uses a cached
+version of the current process' environment which can result in incorrect
+results.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_env_var_names">clink.get_env_var_names()</h4>
+<div class="paragraph indented"><p>Returns a table of the names of the current process' environment variables.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_screen_info">clink.get_screen_info()</h4>
+<div class="paragraph indented"><p>Returns a table describing the current console buffer&#8217;s state with the following
+contents;</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>{
+    -- Dimensions of the console's buffer.
+    buffer_width
+    buffer_height
+
+    -- Dimensions of the visible area of the console buffer.
+    window_width
+    window_height
+}</code></pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_setting_str_name">clink.get_setting_str(name)</h4>
+<div class="paragraph"><p>[role="indented"] Retrieves the Clink setting <em>name</em>, returning it as a string.
+See <a href="#_settings">Settings</a> for more information on the available settings.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_get_setting_int_name">clink.get_setting_int(name)</h4>
+<div class="paragraph indented"><p>As <em>clink.get_setting_str</em> but returning a number instead.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_is_dir_path">clink.is_dir(path)</h4>
+<div class="paragraph indented"><p>Returns true if <em>path</em> resolves to a directory.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_is_rl_variable_true_readline_var_name">clink.is_rl_variable_true(readline_var_name)</h4>
+<div class="paragraph indented"><p>Returns the boolean value of a Readline variable. These can be set with the
+<a href="#_configuring_clink">clink_inputrc</a> file, more details of which can be found
+in the <a href="http://cnswww.cns.cwru.edu/php/chet/readline/rluserman.html">Readline
+Manual</a>.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_lower_text">clink.lower(text)</h4>
+<div class="paragraph indented"><p>Same as os.lower() but respects Readline&#8217;s case-mapping feature which will
+consider <em>-</em> and <em>_</em> as case insensitive.</p></div>
+<div class="paragraph indented"><p>Care should be taken when using this to generate masks for file/dir find
+operations due to the -/_ giving different results (unless of course Readline&#8217;s
+extended case-mapping is disabled).</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_quote_split_str_ql_qr">clink.quote_split(str, ql, qr)</h4>
+<div class="paragraph indented"><p>This function takes the string <em>str</em> which is quoted by <em>ql</em> (the opening quote
+character) and <em>qr</em> (the closing character) and splits it into parts as per the
+quotes. A table of these parts is returned.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><code>clink.quote_split("pre(middle)post", "(", ")") = {
+    "pre", "middle", "post"
+}</code></pre>
+</div></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_slash_translation_type">clink.slash_translation(type)</h4>
+<div class="paragraph indented"><p>Controls how Clink will translate the path separating slashes for the current
+path being completed. Values for <em>type</em> are;</p></div>
+<div class="ulist indented"><ul>
+<li>
+<p>
+-1 - no translation
+</p>
+</li>
+<li>
+<p>
+0 - to backslashes
+</p>
+</li>
+<li>
+<p>
+1 - to forward slashes.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_split_str_sep">clink.split(str, sep)</h4>
+<div class="paragraph indented"><p>Splits the string <em>str</em> into pieces separated by <em>sep</em>, returning a table of the
+pieces.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_clink_suppress_char_append">clink.suppress_char_append()</h4>
+<div class="paragraph indented"><p>This stops Readline from adding a trailing character when completion is
+finished (usually when a single match is returned). The suffixing of a
+character is enabled before completion functions are called so a call to this
+will only apply for the current completion.</p></div>
+<div class="paragraph indented"><p>By default Readline appends a space character (' ') when the is only a single
+match unless it is completing files where it will use the path separator
+instead.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_readline_constants">Readline Constants</h3>
+<div class="sect3">
+<h4 id="_rl_line_buffer">rl_line_buffer</h4>
+<div class="paragraph indented"><p>The variable <em>rl_line_buffer</em> contains the current state of the complete line
+being edited. The value should be considered read-only (i.e. changes to this
+variable are not fed back to Readline).</p></div>
+</div>
+<div class="sect3">
+<h4 id="_rl_point">rl_point</h4>
+<div class="paragraph indented"><p>The current cursor position within the line buffer. This should be considered a
+read-only variable.</p></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_changelog">Changelog</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_v0_3">v0.3</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Automatic answering of cmd.exe&#8217;s <em>Terminate batch script?</em> prompt.
+</p>
+</li>
+<li>
+<p>
+Coloured prompts (requires ANSICON or ConEmu).
+</p>
+</li>
+<li>
+<p>
+Added Shift-Up keyboard shortcut to automatically execute "cd .."
+</p>
+</li>
+<li>
+<p>
+Mapped Ctrl-Z to undo, Microsoft style.
+</p>
+</li>
+<li>
+<p>
+Improved integration of Readline;
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+New input handling code (Ctrl-Alt combos now work).
+</p>
+</li>
+<li>
+<p>
+An implementation of the Termcap library.
+</p>
+</li>
+<li>
+<p>
+Fully functional Vi-mode support.
+</p>
+</li>
+<li>
+<p>
+Support for resizable consoles.
+</p>
+</li>
+<li>
+<p>
+Line wrapping now works correctly (issue 50).
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Adjustable executable match style (issue 65).
+</p>
+</li>
+<li>
+<p>
+Improved environment variable completion.
+</p>
+</li>
+<li>
+<p>
+Added settings file to customise Clink.
+</p>
+</li>
+<li>
+<p>
+New Lua features and functions;
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Matches can now be filtered in Lua before they are display.
+</p>
+</li>
+<li>
+<p>
+clink.quote_split().
+</p>
+</li>
+<li>
+<p>
+clink.arg.node_merge().
+</p>
+</li>
+<li>
+<p>
+clink.get_screen_info() (issue 71).
+</p>
+</li>
+<li>
+<p>
+clink.split() (for splitting strings).
+</p>
+</li>
+<li>
+<p>
+clink.chdir().
+</p>
+</li>
+<li>
+<p>
+clink.get_cwd().
+</p>
+</li>
+<li>
+<p>
+Functions to query Clink&#8217;s settings.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+New command line options;
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+<em>--profile &lt;dir&gt;</em> to override default profile directory.
+</p>
+</li>
+<li>
+<p>
+<em>--nohostcheck</em> disables verification that host is cmd.exe.
+</p>
+</li>
+<li>
+<p>
+<em>--pid</em> specifies the process to inject into.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Update Mercurial completion (issue 73).
+</p>
+</li>
+<li>
+<p>
+Start menu shortcut starts in USERPROFILE, like cmd.exe
+</p>
+</li>
+<li>
+<p>
+Zip distribution is now portable.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_v0_2_1">v0.2.1</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+The .history file now merges multiple sessions together.
+</p>
+</li>
+<li>
+<p>
+Fixed missing y/n, pause, and other prompts.
+</p>
+</li>
+<li>
+<p>
+Fixed segfault in loader executable.
+</p>
+</li>
+<li>
+<p>
+Better ConEmu compatibility.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_v0_2">v0.2</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Basic argument completion for <em>git</em>, <em>hg</em>, <em>svn</em>, and <em>p4</em>.
+</p>
+</li>
+<li>
+<p>
+Traditional Bash clear screen (<em>Ctrl-L</em>) and exit shortcuts (<em>Ctrl-D</em>).
+</p>
+</li>
+<li>
+<p>
+Scrollable command window using <em>PgUp</em>/<em>PgDown</em> keys.
+</p>
+</li>
+<li>
+<p>
+Doskey support.
+</p>
+</li>
+<li>
+<p>
+Automatic quoting of file names with spaces.
+</p>
+</li>
+<li>
+<p>
+Scriptable custom prompts.
+</p>
+</li>
+<li>
+<p>
+New argument framework to ease writing context-sensitive match generators.
+</p>
+</li>
+<li>
+<p>
+History and log file is now saved per-user rather than globally.
+</p>
+</li>
+<li>
+<p>
+Improved Clink&#8217;s command line interface (<em>clink --help</em>).
+</p>
+</li>
+<li>
+<p>
+More reliable handling of cmd.exe&#8217;s autorun entry.
+</p>
+</li>
+<li>
+<p>
+General improvements to executable and directory-command completion.
+</p>
+</li>
+<li>
+<p>
+Symbolic link support.
+</p>
+</li>
+<li>
+<p>
+Documentation.
+</p>
+</li>
+<li>
+<p>
+Windows 8 support.
+</p>
+</li>
+<li>
+<p>
+Improved hooking so Clink can be shared with other thirdparty utilities that
+  also hook cmd.exe (ConEmu, ANSICon, etc.).
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_v0_1_1">v0.1.1</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Fixed AltGr+&lt;key&gt; on international keyboards.
+</p>
+</li>
+<li>
+<p>
+Fixed broken completion when directories have a <em>-</em> in their name (Mark Hammond)
+</p>
+</li>
+<li>
+<p>
+The check for single match scenarios now correctly handles case-insensitivity.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="_v0_1">v0.1</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+Initial release.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2013-04-04 00:26:47 W. Europe Daylight Time
+</div>
+</div>
+</body>
+</html>
