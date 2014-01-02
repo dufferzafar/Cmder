@@ -1,4 +1,17 @@
 ---
+ -- Display the amount of dirt
+ -- @return {false|number of changes}
+---
+function get_dirt()
+    local statuses = ""
+    for line in io.popen("git status --porcelain"):lines() do
+        local m = line:match("[MADRCU?!][?]?%s+.*")
+        if m then statuses = statuses .. " " .. m end
+    end
+    return statuses
+end
+
+---
  -- Find out current branch
  -- @return {false|git branch name}
 ---
@@ -24,12 +37,14 @@ end
 function git_prompt_filter()
 
     -- Colors for git status
+    -- Todo: Add more colors. Green?
     local colors = {
         clean = "\x1b[1;37;40m",
         dirty = "\x1b[31;1m",
     }
 
     local branch = get_git_branch()
+
     if branch then
         -- Has branch => therefore it is a git folder, now figure out status
         if get_git_status() then
@@ -39,12 +54,17 @@ function git_prompt_filter()
         end
 
         clink.prompt.value = string.gsub(clink.prompt.value, "{git}", color.."("..branch..")")
-        return true
-    end
 
-    -- No git present or not in git file
-    clink.prompt.value = string.gsub(clink.prompt.value, "{git}", "")
-    return false
+        -- print(get_dirt())
+
+        return true
+    else
+        -- No git present or not in git folder
+        clink.prompt.value = string.gsub(clink.prompt.value, "{git}", "")
+
+        return false
+    end
 end
 
 clink.prompt.register_filter(git_prompt_filter, 50)
+-- print("Hello!")

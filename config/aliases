@@ -1,8 +1,15 @@
 clear=cls
-ls=ls --color $*
-gl=git log -n 35 --oneline --decorate $*
-gd=git diff --full-index $*
-ga=git add -A $*
-gs=git status $*
-gc=git commit -m $*
+ls=ls -F --color $*
+
+gl=git log -n 35 --pretty=format:"%C(auto) %h %<|(25) %ar %<|(90) %s %d"
+gdf=git diff --full-index
+gd=git diff $*
+
 gh=git help $*
+gs=git status $*
+
+ga=git add -A $*
+gc=git commit -m $*
+
+gb=git branch -v $*
+gch=git checkout $*

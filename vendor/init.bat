@@ -47,5 +47,4 @@
 @set HOME=%USERPROFILE%
 
 :: Feel free to modify/remove
-@echo [3;1mWelcome to cmder!
-@echo customized by [31;2mdufferzafar
+@echo [3;1mWelcome to cmder! customized by [31;mdufferzafar

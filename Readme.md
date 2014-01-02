@@ -21,7 +21,12 @@ See the ".gitignore" file for the entire structure.
 
 * Ctrl+PgUp/PgDn should be used to Cycle through Tabs as Shift+PgUp/PgDn is already available for scrolling the window.
 
+* Ctrl+Shift+T - Load last open tab
+
 * Enabled Keyboard Text Selection.
+
+* Add Commandline Sysinternals Tools
+* Nirsoft Utilities
 
 * Learn Inno Setup Script to create a Setup?
 
