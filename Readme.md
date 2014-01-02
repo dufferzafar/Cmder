@@ -19,11 +19,9 @@ See the ".gitignore" file for the entire structure.
 
 ## <a name="todo"></a>Todo
 
-* Ctrl+PgUp/PgDn should be used to Cycle through Tabs as Shift+PgUp/PgDn is already available for scrolling the window.
-
 * Ctrl+Shift+T - Load last open tab
 
-* Enabled Keyboard Text Selection.
+* Keyboard Text Selection.
 
 * Add Commandline Sysinternals Tools
 * Nirsoft Utilities
@@ -38,6 +36,7 @@ See the ".gitignore" file for the entire structure.
   * No Transparency.
   * <kbd>Alt + `</kbd> Hides the console. So does <kbd>Esc</kbd>.
   * Removed the "-new_console:d:%USERPROFILE%" part.
+  * Ctrl+PgUp/PgDn is used to Cycle through Tabs as Shift+PgUp/PgDn is already available for scrolling the buffer.
 
 * Modified: init.bat <vendor/init.bat>
   * The %PATH% directory.
