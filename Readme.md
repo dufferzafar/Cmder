@@ -8,7 +8,7 @@ Was customizing it for myself, thought I'd just share it.
 I use Autohotkey to pass the current explorer directory as a parameter.
 Without which it'll launch in the directory where "Cmder.bat" is placed.
 
-I've added "msysgit", "gow", "putty" for myself. They are in the vendor folder. You can place other 3rd party stuff there too.
+I've added "msysgit", "gow", "putty", "vim" for myself. They are in the vendor folder. You can place other 3rd party stuff there too.
 
 See the ".gitignore" file for the entire structure.
 
@@ -62,8 +62,9 @@ Here are some of the most used ones:
 
 ## <a name="todo"></a>Todo
 
-* `Ctrl+Shift+T` - Load last open tab
+* The launcher is broken, as the conemu path has changed.
 
+* `Ctrl+Shift+T` - Load last open tab
 
 * Keyboard Text Selection
 

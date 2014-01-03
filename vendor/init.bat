@@ -27,7 +27,7 @@
 @set git_install_root=%rootDir%\vendor\msysgit
 
 :: Add 3rd Party Stuff
-@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;
+@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\gow\bin;
 
 :: Used by "git"
 @set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;

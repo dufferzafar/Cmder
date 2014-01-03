@@ -12,8 +12,9 @@ gch=git checkout $*
 gs=git status $*
 ga=git add -A $*
 gc=git commit -m $*
+gce=git commit -e $*
 
-gpl=git pull
+gpl=git pull $*
 gp=git push origin master
 
 now=time /t && date /t
