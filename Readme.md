@@ -19,6 +19,8 @@ See the ".gitignore" file for the entire structure.
 
 ## <a name="changelog"></a>Things changed
 
+* ConEmu - Version 13.12.19.0
+* Clink - Version 0.4
 
 * Modified: ConEmu settings: <config/ConEmu.xml>
   * Tabs on top
@@ -47,7 +49,7 @@ Clink and ConEmu-Maximus5 together offer a wide range of hotkeys.
 
 Here are some of the most used ones:
 
-* `Alt + `` Hides the console.
+* `Alt + ` ` Hides the console.
 * `Alt+H` : List Clink Hotkeys
 * `Alt+Win+P` : ConEmu Settings
 
@@ -55,7 +57,8 @@ Here are some of the most used ones:
 * `Ctrl+Shift+W` : Close the current process of console
 
 * `Ctrl+PgUp/PgDn` : Cycle through tabs 
-* `Shift+PgUp/PgDn` : Scroll through buffer
+* `Shift+Up/Dn` : Scroll buffer by line
+* `Shift+PgUp/PgDn` : Scroll buffer by page
 
 ## <a name="todo"></a>Todo
 

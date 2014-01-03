@@ -15,3 +15,5 @@ gc=git commit -m $*
 
 gpl=git pull
 gp=git push origin master
+
+now=time /t && date /t
