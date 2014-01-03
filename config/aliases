@@ -6,10 +6,12 @@ gdf=git diff --full-index
 gd=git diff $*
 
 gh=git help $*
-gs=git status $*
+gb=git branch -v $*
+gch=git checkout $*
 
+gs=git status $*
 ga=git add -A $*
 gc=git commit -m $*
 
-gb=git branch -v $*
-gch=git checkout $*
+gpl=git pull
+gp=git push origin master

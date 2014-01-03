@@ -19,9 +19,11 @@ See the ".gitignore" file for the entire structure.
 
 ## <a name="changelog"></a>Things changed
 
+
 * Modified: ConEmu settings: <config/ConEmu.xml>
   * Tabs on top
   * No transparency
+  * Runs in a single instance
   * Xterm highlighting instead of Monokai
   * Shows only active console icon in taskbar
   * No new tab confirmation
@@ -59,7 +61,8 @@ Here are some of the most used ones:
 
 * `Ctrl+Shift+T` - Load last open tab
 
-* Keyboard Text Selection.
+
+* Keyboard Text Selection
 
 * Add Tools:
   * Update tools used in GOW
