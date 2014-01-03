@@ -30,7 +30,7 @@
 @set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;
 
 :: Used by "git"
-@set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;%git_install_root%\share\vim\vim73;
+@set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;
 
 :: Add aliases
 :: These little thingies are life savers, believe me.

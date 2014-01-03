@@ -42,3 +42,6 @@ vendor/gow
 
 # Oh my ssh!
 vendor/putty
+
+# Vi Improved :)
+vendor/vim
