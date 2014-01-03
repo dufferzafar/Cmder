@@ -24,10 +24,6 @@
 clink.matches = {}
 clink.generators = {}
 
-clink.arg = {}
-clink.arg.generators = {}
-clink.arg.node_flags_key = "\x01"
-
 clink.prompt = {}
 clink.prompt.filters = {}
 
@@ -99,7 +95,73 @@ function clink.is_single_match(matches)
 end
 
 --------------------------------------------------------------------------------
+function clink.is_point_in_quote(str, i)
+    if i > #str then
+        i = #str
+    end
+
+    local c = 1
+    local q = string.byte("\"")
+    for j = 1, i do
+        if string.byte(str, j) == q then
+            c = c * -1
+        end
+    end
+
+    if c < 0 then
+        return true
+    end
+
+    return false
+end
+
+--------------------------------------------------------------------------------
+function clink.adjust_for_separator(buffer, point, first, last)
+    local seps = nil
+    if clink.get_host_process() == "cmd.exe" then
+        seps = "|&"
+    end
+
+    if seps then
+        -- Find any valid command separators and if found, manipulate the
+        -- completion state a little bit.
+        local leading = buffer:sub(1, first - 1)
+
+        -- regex is: <sep> <not_seps> <eol>
+        local regex = "["..seps.."]([^"..seps.."]*)$"
+        local sep_found, _, post_sep = leading:find(regex)
+
+        if sep_found and not clink.is_point_in_quote(leading, sep_found) then
+            local delta = #leading - #post_sep
+            buffer = buffer:sub(delta + 1)
+            first = first - delta
+            last = last - delta
+            point = point - delta
+
+            if first < 1 then
+                first = 1
+            end
+        end
+    end
+
+    return buffer, point, first, last
+end
+
+--------------------------------------------------------------------------------
 function clink.generate_matches(text, first, last)
+    local line_buffer
+    local point
+
+    line_buffer, point, first, last = clink.adjust_for_separator(
+        rl_state.line_buffer,
+        rl_state.point,
+        first,
+        last
+    )
+
+    rl_state.line_buffer = line_buffer
+    rl_state.point = point
+
     clink.matches = {}
     clink.match_display_filter = nil
 
@@ -127,6 +189,14 @@ end
 
 --------------------------------------------------------------------------------
 function clink.add_match(match)
+    if type(match) == "table" then
+        for _, i in ipairs(match) do
+            table.insert(clink.matches, i)
+        end
+
+        return
+    end
+
     table.insert(clink.matches, match)
 end
 
@@ -142,6 +212,10 @@ end
 
 --------------------------------------------------------------------------------
 function clink.is_match(needle, candidate)
+    if needle == nil then
+        error("Nil needle value when calling clink.is_match()", 2)
+    end
+
     if clink.lower(candidate:sub(1, #needle)) == clink.lower(needle) then
         return true
     end
@@ -161,6 +235,56 @@ end
 --------------------------------------------------------------------------------
 function clink.get_match(i)
     return clink.matches[i]
+end
+
+--------------------------------------------------------------------------------
+function clink.match_words(text, words)
+    local count = clink.match_count()
+
+    for _, i in ipairs(words) do
+        if clink.is_match(text, i) then
+            clink.add_match(i)
+        end
+    end
+
+    return clink.match_count() - count
+end
+
+--------------------------------------------------------------------------------
+function clink.match_files(pattern, full_path, find_func)
+    -- Fill out default values
+    if type(find_func) ~= "function" then
+        find_func = clink.find_files
+    end
+
+    if full_path == nil then
+        full_path = true
+    end
+
+    if pattern == nil then
+        pattern = "*"
+    end
+
+    -- Glob files.
+    pattern = pattern:gsub("/", "\\")
+    local glob = find_func(pattern, true)
+
+    -- Get glob's base.
+    local base = ""
+    local i = pattern:find("[\\:][^\\:]*$")
+    if i and full_path then
+        base = pattern:sub(1, i)
+    end
+
+    -- Match them.
+    local count = clink.match_count()
+
+    for _, i in ipairs(glob) do
+        local full = base..i
+        clink.add_match(full)
+    end
+
+    return clink.match_count() - count
 end
 
 --------------------------------------------------------------------------------
@@ -194,7 +318,7 @@ function clink.quote_split(str, ql, qr)
         end
 
         -- "quote_string"
-        insert(parts, str:sub(l + 1, r - 1))
+        insert(parts, str:sub(l, r))
         i = r + 1
     end
 
@@ -207,60 +331,13 @@ function clink.quote_split(str, ql, qr)
         end
 
         -- "being_quoted"
-        insert(parts, str:sub(l + 1))
-    elseif i < #str then
+        insert(parts, str:sub(l))
+    elseif i <= #str then
         -- Finally add whatever remains...
         insert(parts, str:sub(i))
     end
 
     return parts
-end
-
---------------------------------------------------------------------------------
-function clink.arg.register_tree(cmd, generator)
-    clink.arg.generators[cmd:lower()] = generator
-end
-
---------------------------------------------------------------------------------
-function clink.arg.tree_node(flags, content)
-    local node = {}
-    for key, arg in pairs(content) do
-        node[key] = arg
-    end
-
-    node[clink.arg.node_flags_key] = flags
-    return node
-end
-
---------------------------------------------------------------------------------
-function clink.arg.node_transpose(a, b)
-    local c = {}
-    for _, i in ipairs(a) do
-        c[i] = b
-    end
-
-    return c
-end
-
---------------------------------------------------------------------------------
-function clink.arg.node_merge(a, b)
-    c = {}
-    d = {a, b}
-    for _, i in ipairs(d) do
-        if type(i) ~= "table" then
-            i = {i}
-        end
-
-        for j, k in pairs(i) do
-            if type(j) == "number" then
-                table.insert(c, k)
-            else
-                c[j] = k
-            end
-        end
-    end
-
-    return c
 end
 
 --------------------------------------------------------------------------------
@@ -329,11 +406,6 @@ function clink.filter_prompt(prompt)
 end
 
 -- vim: expandtab
-
---------------------------------------------------------------------------------
--- arguments.lua
---
-
 --
 -- Copyright (c) 2012 Martin Ridgers
 --
@@ -357,101 +429,500 @@ end
 --
 
 --------------------------------------------------------------------------------
-local function traverse(generator, parts, text, first, last)
-    -- Each part of the command line leading up to 'text' is considered as
-    -- a level of the 'generator' tree.
-    local part = parts[parts.n]
-    local last_part = (parts.n >= #parts)
-    parts.n = parts.n + 1
+clink.arg = {}
 
-    -- Non-table types are leafs of the tree.
-    local t = type(generator)
-    if t == "function" then
-        return generator(text, first, last)
-    elseif t == "boolean" then
-        return generator
-    elseif t == "string" then
-        if last_part then
-            clink.add_match(generator)
+--------------------------------------------------------------------------------
+local parsers               = {}
+local is_parser
+local is_sub_parser
+local new_sub_parser
+local parser_go_impl
+local merge_parsers
+
+local parser_meta_table     = {}
+local sub_parser_meta_table = {}
+
+--------------------------------------------------------------------------------
+function parser_meta_table.__concat(lhs, rhs)
+    if not is_parser(rhs) then
+        error("Right-handside must be parser.", 2)
+    end
+
+    local t = type(lhs)
+    if t == "table" then
+        local ret = {}
+        for _, i in ipairs(lhs) do
+            table.insert(ret, i .. rhs)
         end
-        return last_part
-    elseif t ~= "table" then
+
+        return ret
+    elseif t ~= "string" then
+        error("Left-handside must be a string or a table.", 2)
+    end
+
+    return new_sub_parser(lhs, rhs)
+end
+
+--------------------------------------------------------------------------------
+local function unfold_table(source, target)
+    for _, i in ipairs(source) do
+        if type(i) == "table" and getmetatable(i) == nil then
+            unfold_table(i, target)
+        else
+            table.insert(target, i)
+        end
+    end
+end
+
+--------------------------------------------------------------------------------
+local function parser_is_flag(parser, part)
+    if part == nil then
         return false
     end
 
-    -- Key/value pair is a node of the tree.
-    local next_gen = generator[part]
-    if next_gen then
-        -- If this is the last part and we should be completing it then it's a
-        -- valid match.
-        if last_part and part:sub(-1) ~= " " then
-            clink.add_match(part)
-            return true
+    local prefix = part:sub(1, 1)
+    return prefix == "-" or prefix == "/"
+end
+
+--------------------------------------------------------------------------------
+local function parser_set_arguments(parser, ...)
+    parser.arguments = {}
+    for _, i in ipairs({...}) do
+        -- Check all arguments are tables.
+        if type(i) ~= "table" then
+            error("All arguments to set_arguments() must be tables.", 2)
         end
 
-        return traverse(next_gen, parts, text, first, last)
+        -- Only parsers are allowed to be specified without being wrapped in a
+        -- containing table.
+        if getmetatable(i) ~= nil then
+            if is_parser(i) then
+                table.insert(parser.arguments, i)
+            else
+                error("Tables can't have meta-tables.", 2)
+            end
+        else
+            -- Expand out nested tables and insert into object's arguments table.
+            local arguments = {}
+            unfold_table(i, arguments)
+            table.insert(parser.arguments, arguments)
+        end
     end
 
-    -- Check generator[1] for behaviour flags.
-    -- * = If generator is a leave in the tree, repeat it for ever.
-    -- + = User must have typed at least one character for matches to be added.
-    local repeat_node = false
-    local allow_empty_text = true
-    local node_flags = generator[clink.arg.node_flags_key]
-    if node_flags then
-        repeat_node = (node_flags:find("*") ~= nil)
-        allow_empty_text = (node_flags:find("+") == nil)
-    end
+    return parser
+end
 
-    -- See if we should early-out if we've no text to search with.
-    if not allow_empty_text and text == "" then
-        return false
-    end
+--------------------------------------------------------------------------------
+local function parser_set_flags(parser, ...)
+    local flags = {}
+    unfold_table({...}, flags)
 
-    local full_match = false
-    local matches = {}
-    for key, value in pairs(generator) do
-        -- So we're in a node but don't have enough info yet to traverse
-        -- further down the tree. Attempt to pull out keys or array entries
-        -- and add them as matches.
-        local candidate = key
-        if type(key) == "number" then
-            candidate = value
+    -- Validate the specified flags.
+    for _, i in ipairs(flags) do
+        if is_sub_parser(i) then
+            i = i.key
         end
 
-        if candidate ~= clink.arg.node_flags_key then
-            if type(candidate) == "string" then
-                if clink.is_match(part, candidate) then
-                    full_match = full_match or (#part == #candidate)
-                    table.insert(matches, candidate)
+        -- Check all flags are strings.
+        if type(i) ~= "string" then
+            error("All parser flags must be strings. Found "..type(i), 2)
+        end
+
+        -- Check all flags start with a - or a /
+        if not parser:is_flag(i) then
+            error("Flags must begin with a '-' or a '/'", 2)
+        end
+    end
+
+    parser.flags = flags
+    return parser
+end
+
+--------------------------------------------------------------------------------
+local function parser_flatten_argument(parser, index, part)
+    -- Sanity check the 'index' param to make sure it's valid.
+    if type(index) == "number" then
+        if index <= 0 or index > #parser.arguments then
+            return parser.use_file_matching
+        end
+    end
+
+    if part == nil then
+        part = ""
+    end
+
+    -- index == nil is a special case that returns the parser's flags
+    local opts = {}
+    local arg_opts
+    if index == nil then
+        arg_opts = parser.flags
+    else
+        arg_opts = parser.arguments[index]
+    end
+
+    -- Convert each argument option into a string and collect them in a table.
+    for _, i in ipairs(arg_opts) do
+        if is_sub_parser(i) then
+            table.insert(opts, i.key)
+        else
+            local t = type(i)
+            if t == "function" then
+                local results = i(part)
+                if type(results) == "table" then
+                    for _, j in ipairs(results) do
+                        table.insert(opts, j)
+                    end
                 end
+            elseif t == "string" or t == "number" then
+                table.insert(opts, tostring(i))
             end
         end
     end
 
-    -- One full match, we're not at the end, and we should repeat. Down we go...
-    if not last_part then
-        if full_match and repeat_node then
-            return traverse(generator, parts, text, first, last)
-        end
-    else
-        -- Transfer matches to clink.
-        for _, i in ipairs(matches) do
-            clink.add_match(i)
-        end
-    end
-    
-    return clink.match_count() > 0
+    return opts
 end
 
 --------------------------------------------------------------------------------
-function clink.argument_match_generator(text, first, last)
-    -- Extract the command name (naively)
-    local leading = rl_line_buffer:sub(1, first - 1):lower()
-    local cmd_start, cmd_end, cmd, ext = leading:find("^%s*([%w%-_]+)(%.*[%l]*)%s+")
-    if not cmd_start then
+local function parser_go_args(parser, state)
+    local exhausted_args = false
+    local exhausted_parts = false
+
+    local part = state.parts[state.part_index]
+    local arg_index = state.arg_index
+    local arg_opts = parser.arguments[arg_index]
+    local arg_count = #parser.arguments
+
+    -- Is the next argument a parser? Parse control directly on to it.
+    if is_parser(arg_opts) then
+        state.arg_index = 1
+        return parser_go_impl(arg_opts, state)
+    end
+
+    -- Advance parts state.
+    state.part_index = state.part_index + 1
+    if state.part_index > #state.parts then
+        exhausted_parts = true
+    end
+
+    -- Advance argument state.
+    state.arg_index = arg_index + 1
+    if arg_index > arg_count then
+        exhausted_args = true
+    end
+
+    -- We've exhausted all available arguments. We either loop or we're done.
+    if parser.loop_point > 0 and state.arg_index > arg_count then
+        state.arg_index = parser.loop_point
+        if state.arg_index > arg_count then
+            state.arg_index = arg_count
+        end
+    end
+
+    -- Is there some state to process?
+    if not exhausted_parts and not exhausted_args then
+        local exact = false
+        for _, arg_opt in ipairs(arg_opts) do
+            -- Is the argument a key to a sub-parser? If so then hand control
+            -- off to it.
+            if is_sub_parser(arg_opt) then
+                if arg_opt.key == part then
+                    state.arg_index = 1
+                    return parser_go_impl(arg_opt.parser, state)
+                end
+            end
+
+            -- Check so see if the part has an exact match in the agrument. Note
+            -- that only string-type options are considered.
+            if type(arg_opt) == "string" then
+                exact = exact or arg_opt == part
+            else
+                exact = true
+            end
+        end
+
+        -- If the parser's required to be precise then check here.
+        if parser.precise and not exact then
+            exhausted_args = true
+        else
+            return nil
+        end
+    end
+
+    -- If we've no more arguments to traverse but there's still parts
+    -- remaining then default Readline's file matching (unless
+    -- otherwise disabled).
+    if exhausted_args then
+        state.part_index = state.part_index - 1
+
+        if not exhausted_parts then
+            return parser.use_file_matching
+        end
+    end
+
+    return parser:flatten_argument(arg_index, part)
+end
+
+--------------------------------------------------------------------------------
+local function parser_go_flags(parser, state)
+    local part = state.parts[state.part_index]
+
+    -- Advance parts state.
+    state.part_index = state.part_index + 1
+    if state.part_index > #state.parts then
+        return parser:flatten_argument()
+    end
+
+    for _, arg_opt in ipairs(parser.flags) do
+        if is_sub_parser(arg_opt) then
+            if arg_opt.key == part then
+                local arg_index_cache = state.arg_index
+                state.arg_index = 1
+
+                local ret = parser_go_impl(arg_opt.parser, state)
+                if type(ret) == "table" then
+                    return ret
+                end
+
+                state.arg_index = arg_index_cache
+            end
+        end
+    end
+end
+
+--------------------------------------------------------------------------------
+function parser_go_impl(parser, state)
+    local part
+    local dispatch_func
+    local ret
+    local has_flags = #parser.flags > 0
+
+    while state.part_index <= #state.parts do
+        part = state.parts[state.part_index]
+
+        if has_flags and parser:is_flag(part) then
+            dispatch_func = parser_go_flags
+        else
+            dispatch_func = parser_go_args
+        end
+
+        ret = dispatch_func(parser, state)
+        if ret ~= nil then
+            return ret
+        end
+    end
+
+    return parser.use_file_matching
+end
+
+--------------------------------------------------------------------------------
+local function parser_go(parser, parts)
+    -- Validate 'parts'.
+    if type(parts) ~= "table" then
+        error("'Parts' param must be a table of strings ("..type(parts)..").", 2)
+    else
+        if #parts == 0 then
+            part = { "" }
+        end
+
+        for i, j in ipairs(parts) do
+            local t = type(parts[i])
+            if t ~= "string" then
+                error("'Parts' table can only contain strings; "..j.."="..t, 2)
+            end
+        end
+    end
+
+    local state = {
+        arg_index = 1,
+        part_index = 1,
+        parts = parts,
+    }
+
+    return parser_go_impl(parser, state)
+end
+
+--------------------------------------------------------------------------------
+local function parser_dump(parser, depth)
+    if depth == nil then
+        depth = 0
+    end
+
+    function prt(depth, index, text)
+        local indent = string.sub("                                 ", 1, depth)
+        text = tostring(text)
+        print(indent..depth.."."..index.." - "..text)
+    end
+
+    -- Print arguments
+    local i = 0
+    for _, arg_opts in ipairs(parser.arguments) do
+        for _, arg_opt in ipairs(arg_opts) do
+            if is_sub_parser(arg_opt) then
+                prt(depth, i, arg_opt.key)
+                arg_opt.parser:dump(depth + 1)
+            else
+                prt(depth, i, arg_opt)
+            end
+        end
+
+        i = i + 1
+    end
+
+    -- Print flags
+    for _, flag in ipairs(parser.flags) do
+        prt(depth, "F", flag)
+    end
+end
+
+--------------------------------------------------------------------------------
+function parser_be_precise(parser)
+    parser.precise = true
+    return parser
+end
+
+--------------------------------------------------------------------------------
+function is_parser(p)
+    return type(p) == "table" and getmetatable(p) == parser_meta_table
+end
+
+--------------------------------------------------------------------------------
+function is_sub_parser(sp)
+    return type(sp) == "table" and getmetatable(sp) == sub_parser_meta_table
+end
+
+--------------------------------------------------------------------------------
+function new_sub_parser(key, parser)
+    local sub_parser = {}
+    sub_parser.key = key
+    sub_parser.parser = parser
+
+    setmetatable(sub_parser, sub_parser_meta_table)
+    return sub_parser
+end
+
+--------------------------------------------------------------------------------
+local function parser_disable_file_matching(parser)
+    parser.use_file_matching = false
+    return parser
+end
+
+--------------------------------------------------------------------------------
+local function parser_loop(parser, loop_point)
+    if loop_point == nil or type(loop_point) ~= "number" then
+        loop_point = 1
+    end
+
+    parser.loop_point = loop_point
+    return parser
+end
+
+--------------------------------------------------------------------------------
+function clink.arg.new_parser()
+    local parser = {}
+
+    -- Methods
+    parser.set_flags = parser_set_flags
+    parser.set_arguments = parser_set_arguments
+    parser.dump = parser_dump
+    parser.go = parser_go
+    parser.flatten_argument = parser_flatten_argument
+    parser.be_precise = parser_be_precise
+    parser.disable_file_matching = parser_disable_file_matching
+    parser.loop = parser_loop
+    parser.is_flag = parser_is_flag
+
+    -- Members.
+    parser.flags = {}
+    parser.arguments = {}
+    parser.precise = false
+    parser.use_file_matching = true
+    parser.loop_point = 0
+
+    setmetatable(parser, parser_meta_table)
+    return parser
+end
+
+--------------------------------------------------------------------------------
+function merge_parsers(lhs, rhs)
+    -- Merging parsers is not a trivial matter and this implementation is far
+    -- from correct. It is however sufficient for the majority of cases.
+
+    -- Remove (and save value of) the first argument in RHS.
+    local rhs_arg_1 = table.remove(rhs.arguments, 1)
+    if rhs_arg_1 == nil then
+        return
+    end
+
+    -- Get reference to the LHS's first argument table (creating it if needed).
+    local lhs_arg_1 = lhs.arguments[1]
+    if lhs_arg_1 == nil then
+        lhs_arg_1 = {}
+        table.insert(lhs.arguments, lhs_arg_1)
+    end
+
+    -- Link RHS to LHS through sub-parsers.
+    for _, rarg in ipairs(rhs_arg_1) do
+        local child = nil
+
+        -- Split sub parser
+        if is_sub_parser(rarg) then
+            child = rarg.parser     
+            rarg = rarg.key
+        end
+
+        -- If LHS's first argument has rarg in it that links to a sub-parser
+        -- then we need to recursively merge them
+
+        table.insert(lhs_arg_1, rarg .. (child or rhs))
+    end
+
+    -- Merge flags.
+    for _, rflag in ipairs(rhs.flags) do
+        table.insert(lhs.flags, rflag)
+    end
+end
+
+--------------------------------------------------------------------------------
+function clink.arg.register_parser(cmd, parser)
+    if not is_parser(parser) then
+        local p = clink.arg.new_parser()
+        p:set_arguments({ parser })
+        parser = p
+    end
+
+    cmd = cmd:lower()
+    local prev = parsers[cmd]
+    if prev ~= nil then
+        merge_parsers(prev, parser)
+    else
+        parsers[cmd] = parser
+    end
+end
+
+--------------------------------------------------------------------------------
+local function argument_match_generator(text, first, last)
+    local leading = rl_state.line_buffer:sub(1, first - 1):lower()
+
+    -- Extract the command.
+    local cmd_l, cmd_r
+    if leading:find("^%s*\"") then
+        -- Command appears to be surround by quotes.
+        cmd_l, cmd_r = leading:find("%b\"\"")
+        if cmd_l and cmd_r then
+            cmd_l = cmd_l + 1
+            cmd_r = cmd_r - 1
+        end
+    else
+        -- No quotes so the first, longest, non-whitespace word is extracted.
+        cmd_l, cmd_r = leading:find("[^%s]+")
+    end
+
+    if not cmd_l or not cmd_r then
         return false
     end
+
+    local regex = "[\\/:]*([^\\/:.]+)(%.*[%l]*)%s*$"
+    local _, _, cmd, ext = leading:sub(cmd_l, cmd_r):lower():find(regex)
 
     -- Check to make sure the extension extracted is in pathext.
     if ext and ext ~= "" then
@@ -459,35 +930,64 @@ function clink.argument_match_generator(text, first, last)
             return false
         end
     end
-
-    -- Find a registered generator.
-    local generator = clink.arg.generators[cmd]
-    if generator == nil then
+    
+    -- Find a registered parser.
+    local parser = parsers[cmd]
+    if parser == nil then
         return false
     end
 
     -- Split the command line into parts.
-    local str = rl_line_buffer:sub(cmd_end, last - 1)
+    local str = rl_state.line_buffer:sub(cmd_r + 2, last)
     local parts = {}
     for _, sub_str in ipairs(clink.quote_split(str, "\"")) do
-        for _, r, part in function () return sub_str:find("^%s*([^%s]+)") end do
-            table.insert(parts, part)
-            sub_str = sub_str:sub(r+1)
+        -- Quoted strings still have their quotes. Look for those type of
+        -- strings, strip the quotes and add it completely.
+        if sub_str:sub(1, 1) == "\"" then
+            local l, r = sub_str:find("\"[^\"]+")
+            if l then
+                local part = sub_str:sub(l + 1, r)
+                table.insert(parts, part)
+            end
+        else
+            -- Extract non-whitespace parts.
+            for _, r, part in function () return sub_str:find("^%s*([^%s]+)") end do
+                table.insert(parts, part)
+                sub_str = sub_str:sub(r + 1)
+            end
         end
     end
 
     -- If 'text' is empty then add it as a part as it would have been skipped
-    -- by the split loop above
+    -- by the split loop above.
     if text == "" then
         table.insert(parts, text)
     end
 
-    parts.n = 1
-    return traverse(generator, parts, text, first, last)
+    -- Extend rl_state with match generation state; text, first, and last.
+    rl_state.text = text
+    rl_state.first = first
+    rl_state.last = last
+
+    -- Call the parser.
+    local needle = parts[#parts]
+    local ret = parser:go(parts)
+    if type(ret) ~= "table" then
+        return not ret
+    end
+
+    -- Iterate through the matches the parser returned and collect matches.
+    for _, match in ipairs(ret) do
+        if clink.is_match(needle, match) then
+            clink.add_match(match)
+        end
+    end
+
+    return true
 end
 
 --------------------------------------------------------------------------------
-clink.register_match_generator(clink.argument_match_generator, 25)
+clink.register_match_generator(argument_match_generator, 25)
 
 -- vim: expandtab
 
@@ -518,7 +1018,7 @@ clink.register_match_generator(clink.argument_match_generator, 25)
 --
 
 --------------------------------------------------------------------------------
-function dir_match_generator(text, first, last)
+function dir_match_generator_impl(text)
     -- Strip off any path components that may be on text.
     local prefix = ""
     local i = text:find("[\\/:][^\\/:]*$")
@@ -526,37 +1026,45 @@ function dir_match_generator(text, first, last)
         prefix = text:sub(1, i)
     end
 
+    local matches = {}
     local mask = text.."*"
 
     -- Find matches.
     for _, dir in ipairs(clink.find_dirs(mask, true)) do
         local file = prefix..dir
         if clink.is_match(text, file) then
-            clink.add_match(prefix..dir)
+            table.insert(matches, prefix..dir)
         end
     end
 
+    return matches
+end
+
+--------------------------------------------------------------------------------
+local function dir_match_generator(word)
+    local matches = dir_match_generator_impl(word)
+
     -- If there was no matches but text is a dir then use it as the single match.
     -- Otherwise tell readline that matches are files and it will do magic.
-    if clink.match_count() == 0 then
-        if clink.is_dir(text) then
-            clink.add_match(text)
+    if #matches == 0 then
+        if clink.is_dir(rl_state.text) then
+            table.insert(matches, rl_state.text)
         end
     else
         clink.matches_are_files()
     end
 
-    return true
+    return matches
 end
 
 --------------------------------------------------------------------------------
-clink.arg.register_tree("cd", dir_match_generator)
-clink.arg.register_tree("chdir", dir_match_generator)
-clink.arg.register_tree("pushd", dir_match_generator)
-clink.arg.register_tree("rd", dir_match_generator)
-clink.arg.register_tree("rmdir", dir_match_generator)
-clink.arg.register_tree("md", dir_match_generator)
-clink.arg.register_tree("mkdir", dir_match_generator)
+clink.arg.register_parser("cd", dir_match_generator)
+clink.arg.register_parser("chdir", dir_match_generator)
+clink.arg.register_parser("pushd", dir_match_generator)
+clink.arg.register_parser("rd", dir_match_generator)
+clink.arg.register_parser("rmdir", dir_match_generator)
+clink.arg.register_parser("md", dir_match_generator)
+clink.arg.register_parser("mkdir", dir_match_generator)
 
 -- vim: expandtab
 
@@ -615,7 +1123,7 @@ end
 
 --------------------------------------------------------------------------------
 local function env_vars_match_generator(text, first, last)
-    local all = rl_line_buffer:sub(1, last)
+    local all = rl_state.line_buffer:sub(1, last)
 
     -- Skip pairs of %s
     local i = 1
@@ -644,7 +1152,10 @@ local function env_vars_match_generator(text, first, last)
 
     if clink.match_count() >= 1 then
         clink.match_display_filter = env_vars_display_filter
+
         clink.suppress_char_append()
+        clink.suppress_quoting()
+
         return true
     end
 
@@ -652,7 +1163,9 @@ local function env_vars_match_generator(text, first, last)
 end
 
 --------------------------------------------------------------------------------
-clink.register_match_generator(env_vars_match_generator, 10)
+if clink.get_host_process() == "cmd.exe" then
+    clink.register_match_generator(env_vars_match_generator, 10)
+end
 
 -- vim: expandtab
 
@@ -683,7 +1196,6 @@ clink.register_match_generator(env_vars_match_generator, 10)
 --
 
 --------------------------------------------------------------------------------
-local match_style = 0
 local dos_commands = {
     "assoc", "break", "call", "cd", "chcp", "chdir", "cls", "color", "copy",
     "date", "del", "dir", "diskcomp", "diskcopy", "echo", "endlocal", "erase",
@@ -694,83 +1206,49 @@ local dos_commands = {
 }
 
 --------------------------------------------------------------------------------
-local function dos_cmd_match_generator(text, first, last)
-    for _, cmd in ipairs(dos_commands) do
-        if clink.is_match(text, cmd) then
-            clink.add_match(cmd)
+local function get_environment_paths()
+    local paths = clink.split(clink.get_env("PATH"), ";")
+
+    -- We're expecting absolute paths and as ';' is a valid path character
+    -- there maybe unneccessary splits. Here we resolve them.
+    local paths_merged = { paths[1] }
+    for i = 2, #paths, 1 do
+        if not paths[i]:find("^[a-zA-Z]:") then
+            local t = paths_merged[#paths_merged];
+            paths_merged[#paths_merged] = t..paths[i]
+        else
+            table.insert(paths_merged, paths[i])
         end
     end
-end
 
---------------------------------------------------------------------------------
-local function dos_and_dir_match_generators(text, first, last)
-    dos_cmd_match_generator(text, first, last)
-    dir_match_generator(text, first, last)
-end
-
---------------------------------------------------------------------------------
-local function build_passes(text)
-    local passes = {}
-
-    -- If there's no path separator in text then consider the environment's path
-    -- as a first pass for matches.
-    if not text:find("[\\/:]") then
-        local paths = clink.split(clink.get_env("PATH"), ";")
-
-        -- We're expecting absolute paths and as ';' is a valid path character
-        -- there maybe unneccessary splits. Here we resolve them.
-        local paths_merged = { paths[1] }
-        for i = 2, #paths, 1 do
-            if not paths[i]:find("^[a-zA-Z]:") then
-                local t = paths_merged[#paths_merged];
-                paths_merged[#paths_merged] = t..paths[i]
-            else
-                table.insert(paths_merged, paths[i])
-            end
-        end
-
-        -- Append slashes.
-        for i = 1, #paths_merged, 1 do
-            table.insert(paths, paths_merged[i].."\\")
-        end
-
-        -- Depending on match style add empty path so 'text' is used.
-        if match_style > 0 then
-            table.insert(paths, "")
-        end
-
-        -- Should directories be considered too?
-        local extra_func = dos_cmd_match_generator
-        if match_style > 1 then
-            extra_func = dos_and_dir_match_generators
-        end
-
-        table.insert(passes, { paths=paths, func=extra_func })
+    -- Append slashes.
+    for i = 1, #paths_merged, 1 do
+        table.insert(paths, paths_merged[i].."\\")
     end
 
-    -- The fallback solution is to use 'text' to find matches, and also add
-    -- directories.
-    table.insert(passes, { paths={""}, func=dir_match_generator })
-
-    return passes
+    return paths
 end
 
 --------------------------------------------------------------------------------
 local function exec_match_generator(text, first, last)
-    -- We're only interested in exec completion if this is the first word of the
-    -- line, or the first word after a command separator.
-    local leading = rl_line_buffer:sub(1, first - 1)
-    local is_first = leading:find("^%s*\"*$")
-    local is_separated = leading:find("[|&]%s*\"*$")
-    if not is_first and not is_separated then
+    -- If match style setting is < 0 then consider executable matching disabled.
+    local match_style = clink.get_setting_int("exec_match_style")
+    if match_style < 0 then
         return false
     end
 
-    -- Strip off possible trailing extension.
-    local needle = text
-    local ext_a, ext_b = needle:find("%.[a-zA-Z]*$")
-    if ext_a then
-        needle = needle:sub(1, ext_a - 1)
+    -- We're only interested in exec completion if this is the first word of the
+    -- line, or the first word after a command separator.
+    if clink.get_setting_int("space_prefix_match_files") > 0 then
+        if first > 1 then
+            return false
+        end
+    else
+        local leading = rl_state.line_buffer:sub(1, first - 1)
+        local is_first = leading:find("^%s*\"*$")
+        if not is_first then
+            return false
+        end
     end
 
     -- Strip off any path components that may be on text
@@ -780,38 +1258,47 @@ local function exec_match_generator(text, first, last)
         prefix = text:sub(1, i)
     end
 
-    match_style = clink.get_setting_int("exec_match_style")
-    local passes = build_passes(text)
+    local suffices = clink.split(clink.get_env("pathext"), ";")
+    for i = 1, #suffices, 1 do
+        suffices[i] = text.."*"..suffices[i]
+    end
 
-    -- Combine extensions, text, and paths to find matches - this is done in two
-    -- passes, the second pass possibly being "local" if the system-wide search
-    -- didn't find any results.
-    local n = #passes
-    local exts = clink.split(clink.get_env("PATHEXT"), ";")
-    for p = 1, n do
-        local pass = passes[p]
-        for _, ext in ipairs(exts) do
-            for _, path in ipairs(pass.paths) do
-                local mask = path..needle.."*"..ext
-                for _, file in ipairs(clink.find_files(mask, true)) do
-                    file = prefix..file
-                    if clink.is_match(text, file) then
-                        clink.add_match(file)
-                    end
-                end
+    -- First step is to match executables in the environment's path.
+    if not text:find("[\\/:]") then
+        local paths = get_environment_paths()
+        for _, suffix in ipairs(suffices) do
+            for _, path in ipairs(paths) do
+                clink.match_files(path..suffix, false)
             end
         end
-        
-        if pass.func then
-            pass.func(text, first, last)
+
+        -- If the terminal is cmd.exe check it's commands for matches.
+        if clink.get_host_process() == "cmd.exe" then
+            clink.match_words(text, dos_commands)
         end
 
-        -- Was there matches? Then there's no need to make any further passes.
-        if clink.match_count() > 0 then
-            break
+        -- Lastly add console aliases as matches.
+        local aliases = clink.get_console_aliases()
+        clink.match_words(text, aliases)
+    elseif match_style < 1 then
+        -- 'text' is an absolute or relative path. If we're doing Bash-style
+        -- matching should now consider directories.
+        match_style = 2
+    end
+
+    -- Optionally include executables in the cwd (or absolute/relative path).
+    if clink.match_count() == 0 or match_style >= 1 then
+        for _, suffix in ipairs(suffices) do
+            clink.match_files(suffix)
         end
     end
 
+    -- Lastly we may wish to consider directories too.
+    if clink.match_count() == 0 or match_style >= 2 then
+        clink.match_files(text.."*", true, clink.find_dirs)
+    end
+
+    clink.matches_are_files()
     return true
 end
 
@@ -861,9 +1348,112 @@ local git_argument_tree = {
     "rev-parse", "show-branch", "verify-tag", "whatchanged"
 }
 
-clink.arg.register_tree("git", git_argument_tree)
+clink.arg.register_parser("git", git_argument_tree)
 
 -- vim: expandtab
+
+--------------------------------------------------------------------------------
+-- go.lua
+--
+
+--
+-- Copyright (c) 2013 Dobroslaw Zybort
+--
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+--
+-- The above copyright notice and this permission notice shall be included in
+-- all copies or substantial portions of the Software.
+--
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+-- SOFTWARE.
+--
+
+--------------------------------------------------------------------------------
+local function flags(...)
+    local p = clink.arg.new_parser()
+    p:set_flags(...)
+    return p
+end
+
+--------------------------------------------------------------------------------
+local go_tool_parser = clink.arg.new_parser()
+go_tool_parser:set_flags("-n")
+go_tool_parser:set_arguments({
+    "8a", "8c", "8g", "8l", "addr2line", "api", "cgo", "colcmp", "dist",
+    "ebnflint", "gotype", "nm", "objdump", "pack", "pprof", "yacc",
+    "cov"  .. flags("-l", "-s", "-v", "-g", "-m"),
+    "fix"  .. flags("-diff", "-r", "-?"),
+    "prof" .. flags("-p", "-t", "-d", "-P", "-h", "-f", "-l", "-r", "-s"),
+    "vet"  .. flags("-printf", "-methods", "-structtags", "-composites", "-v",
+                    "-printfuncs"),
+})
+
+--------------------------------------------------------------------------------
+local go_parser = clink.arg.new_parser()
+go_parser:set_arguments({
+    "env",
+    "fix",
+    "version",
+    "build"    .. flags("-a", "-n", "-p", "-v", "-work", "-x", "-race",
+                        "-ccflags", "-compiler", "-gccgoflags", "-gcflags",
+                        "-ldflags", "-tags"),
+    "clean"    .. flags("-i", "-n", "-r", "-x"),
+    "doc"      .. flags("-n", "-x"),
+    "fmt"      .. flags("-n", "-x"),
+    "get"      .. flags("-a", "-d", "-fix", "-n", "-p", "-u", "-v", "-x"),
+    "install"  .. flags("-a", "-n", "-p", "-v", "-work", "-x", "-race",
+                        "-ccflags", "-compiler", "-gccgoflags", "-gcflags",
+                        "-ldflags", "-tags"),
+    "list"     .. flags("-e", "-f", "-json"),
+    "run"      .. flags("-a", "-n", "-p", "-v", "-work", "-x", "-race",
+                        "-ccflags", "-compiler", "-gccgoflags", "-gcflags",
+                        "-ldflags", "-tags"),
+    "test"     .. flags("-c", "-i", "-a", "-n", "-p", "-v", "-work", "-x",
+                        "-race", "-ccflags", "-compiler", "-gccgoflags",
+                        "-gcflags", "-ldflags", "-tags"),
+    "tool"     .. go_tool_parser,
+    "vet"      .. flags("-n", "-x"),
+})
+
+--------------------------------------------------------------------------------
+local go_help_parser = clink.arg.new_parser()
+go_help_parser:set_arguments({
+    "help" .. clink.arg.new_parser():set_arguments({
+        go_parser:flatten_argument(1)
+    })
+})
+
+--------------------------------------------------------------------------------
+local godoc_parser = clink.arg.new_parser()
+godoc_parser:set_flags(
+    "-goroot", "-html", "-http", "-index", "-index_files", "-index_throttle",
+    "-maxresults", "-play", "-q", "-server", "-src", "-tabwidth", "-templates",
+    "-testdir", "-timestamps", "-url", "-v", "-write_index", "-zip"
+)
+
+--------------------------------------------------------------------------------
+local gofmt_parser = clink.arg.new_parser()
+gofmt_parser:set_flags(
+    "-d", "-e", "-l", "-r", "-s", "-w",
+    -- Formatting control flags
+    "-comments", "-tabs", "-tabwidth"
+)
+
+--------------------------------------------------------------------------------
+clink.arg.register_parser("go", go_parser)
+clink.arg.register_parser("go", go_help_parser)
+clink.arg.register_parser("godoc", godoc_parser)
+clink.arg.register_parser("gofmt", gofmt_parser)
 
 --------------------------------------------------------------------------------
 -- hg.lua
@@ -903,7 +1493,7 @@ local hg_tree = {
     "phases"
 }
 
-clink.arg.register_tree("hg", hg_tree)
+clink.arg.register_parser("hg", hg_tree)
 
 -- vim: expandtab
 
@@ -949,9 +1539,48 @@ local p4_tree = {
     "unshelve", "update", "user", "users", "where", "workspace", "workspaces"
 }
 
-clink.arg.register_tree("p4", p4_tree)
+clink.arg.register_parser("p4", p4_tree)
 
 -- vim: expandtab
+
+--------------------------------------------------------------------------------
+-- powershell.lua
+--
+
+--
+-- Copyright (c) 2013 Martin Ridgers
+--
+-- Permission is hereby granted, free of charge, to any person obtaining a copy
+-- of this software and associated documentation files (the "Software"), to deal
+-- in the Software without restriction, including without limitation the rights
+-- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+-- copies of the Software, and to permit persons to whom the Software is
+-- furnished to do so, subject to the following conditions:
+--
+-- The above copyright notice and this permission notice shall be included in
+-- all copies or substantial portions of the Software.
+--
+-- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+-- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+-- SOFTWARE.
+--
+
+--------------------------------------------------------------------------------
+local function powershell_prompt_filter()
+    local l, r, path = clink.prompt.value:find("([a-zA-Z]:\\.*)> $")
+    if path ~= nil then
+        clink.chdir(path)
+    end
+end
+
+--------------------------------------------------------------------------------
+if clink.get_host_process() == "powershell.exe" then
+    clink.prompt.register_filter(powershell_prompt_filter, -493)
+end
 
 --------------------------------------------------------------------------------
 -- self.lua
@@ -980,17 +1609,56 @@ clink.arg.register_tree("p4", p4_tree)
 --
 
 --------------------------------------------------------------------------------
-local self_tree = clink.arg.tree_node("*", {
-    "--help",
-    inject = clink.arg.tree_node("*+", {
-        "--scripts", "--help", "--quiet", "--althook"
-    }),
-    autorun = clink.arg.tree_node("*+", {
-        "--install", "--uninstall", "--show", "--value"
-    }),
-})
+local inject_parser
+local autorun_parser
+local set_parser
+local self_parser
 
-clink.arg.register_tree("clink", self_tree)
+inject_parser = clink.arg.new_parser()
+inject_parser:set_flags(
+    "--help",
+    "--nohostcheck",
+    "--pid",
+    "--profile",
+    "--quiet",
+    "--scripts"
+)
+
+autorun_parser = clink.arg.new_parser()
+autorun_parser:set_flags(
+    "--help",
+    "--install",
+    "--uninstall",
+    "--show",
+    "--value"
+)
+
+set_parser = clink.arg.new_parser()
+set_parser:disable_file_matching()
+set_parser:set_flags("--help")
+set_parser:set_arguments(
+    {
+        "ctrld_exits",
+        "esc_clears_line",
+        "exec_match_style",
+        "match_colour",
+        "persist_history",
+        "prompt_colour",
+        "space_prefix_match_files",
+        "terminate_autoanswer",
+    }
+)
+
+self_parser = clink.arg.new_parser()
+self_parser:set_arguments(
+    {
+        "inject" .. inject_parser,
+        "autorun" .. autorun_parser,
+        "set" .. set_parser,
+    }
+)
+
+clink.arg.register_parser("clink", self_parser)
 
 -- vim: expandtab
 
@@ -1021,31 +1689,27 @@ clink.arg.register_tree("clink", self_tree)
 --
 
 --------------------------------------------------------------------------------
-local function set_match_generator(text, first, last)
+local function set_match_generator(word)
     -- Skip this generator if first is in the rvalue.
-    local leading = rl_line_buffer:sub(1, first - 1)
+    local leading = rl_state.line_buffer:sub(1, rl_state.first - 1)
     if leading:find("=") then
-        return false;
+        return false
     end
 
     -- Enumerate environment variables and check for potential matches.
+    local matches = {}
     for _, name in ipairs(clink.get_env_var_names()) do
-        if clink.is_match(text, name) then
-            clink.add_match(name:lower())
+        if clink.is_match(word, name) then
+            table.insert(matches, name:lower())
         end
     end
 
-    -- If there was only one match, add a '=' on the end.
-    if clink.match_count() == 1 then
-        --clink.set_match(1, clink.get_match(1).."=")
-        clink.suppress_char_append()
-    end
-
-    return true
+    clink.suppress_char_append()
+    return matches
 end
 
 --------------------------------------------------------------------------------
-clink.arg.register_tree("set", set_match_generator)
+clink.arg.register_parser("set", set_match_generator)
 
 -- vim: expandtab
 
@@ -1087,6 +1751,6 @@ local svn_tree = {
     "unlock", "update", "up"
 }
 
-clink.arg.register_tree("svn", svn_tree)
+clink.arg.register_parser("svn", svn_tree)
 
 -- vim: expandtab
