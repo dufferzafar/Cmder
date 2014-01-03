@@ -23,10 +23,16 @@ See the ".gitignore" file for the entire structure.
 
 * Keyboard Text Selection.
 
-* Add Commandline Sysinternals Tools
-* Nirsoft Utilities
+* Add Tools:
+  * Update tools used in GOW
+  * FAR
+  * Commandline Sysinternals Tools
+  * Nirsoft Utilities
 
-* Learn Inno Setup Script to create a Setup?
+* Setup
+  * Launch in directory
+  * Hotkey via AHK 
+  * Inno Setup Script
 
 ## <a name="changelog"></a>Changelog
 
@@ -34,9 +40,9 @@ See the ".gitignore" file for the entire structure.
   * Xterm Highlighting
   * Tabs on top
   * No Transparency.
-  * <kbd>Alt + `</kbd> Hides the console. So does <kbd>Esc</kbd>.
+  * <kbd>Alt + `</kbd> Hides the console.
   * Removed the "-new_console:d:%USERPROFILE%" part.
-  * Ctrl+PgUp/PgDn is used to Cycle through Tabs as Shift+PgUp/PgDn is already available for scrolling the buffer.
+  * Ctrl+PgUp/PgDn is used to cycle through tabs. Use Shift+PgUp/PgDn to scroll the buffer.
 
 * Modified: init.bat <vendor/init.bat>
   * The %PATH% directory.
