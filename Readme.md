@@ -14,12 +14,50 @@ See the ".gitignore" file for the entire structure.
 
 ## Table of Contents
 
-* [Todo](#todo)
 * [What has been changed?](#changelog)
+* [Stuff to do](#todo)
+
+## <a name="changelog"></a>Things changed
+
+* Modified: ConEmu settings: <config/ConEmu.xml>
+  * Tabs on top
+  * No transparency
+  * Xterm highlighting instead of Monokai
+  * Shows only active console icon in taskbar
+  * No new tab confirmation
+  * Removed the "-new_console:d:%USERPROFILE%" part to launch in any directory.
+
+* Modified: init.bat <vendor/init.bat>
+  * The %PATH% directory.
+
+* Modified: alias.bat <config/alias.bat>
+  * Run alias command without any parameters to list all aliases.
+
+* Modified: Added some more aliases: <config/aliases>
+  * clear = cls
+  * Git Fun!
+
+* Added: msysgit, gow, putty. <vendor/>
+
+## <a name="hotkeys"></a>List of Hotkeys
+
+Clink and ConEmu-Maximus5 together offer a wide range of hotkeys.
+
+Here are some of the most used ones:
+
+* `Alt + `` Hides the console.
+* `Alt+H` : List Clink Hotkeys
+* `Alt+Win+P` : ConEmu Settings
+
+* `Ctrl+W` : Close current tab
+* `Ctrl+Shift+W` : Close the current process of console
+
+* `Ctrl+PgUp/PgDn` : Cycle through tabs 
+* `Shift+PgUp/PgDn` : Scroll through buffer
 
 ## <a name="todo"></a>Todo
 
-* Ctrl+Shift+T - Load last open tab
+* `Ctrl+Shift+T` - Load last open tab
 
 * Keyboard Text Selection.
 
@@ -33,22 +71,3 @@ See the ".gitignore" file for the entire structure.
   * Launch in directory
   * Hotkey via AHK 
   * Inno Setup Script
-
-## <a name="changelog"></a>Changelog
-
-* Modified: ConEmu settings: <config/ConEmu.xml>
-  * Xterm Highlighting
-  * Tabs on top
-  * No Transparency.
-  * <kbd>Alt + `</kbd> Hides the console.
-  * Removed the "-new_console:d:%USERPROFILE%" part.
-  * Ctrl+PgUp/PgDn is used to cycle through tabs. Use Shift+PgUp/PgDn to scroll the buffer.
-
-* Modified: init.bat <vendor/init.bat>
-  * The %PATH% directory.
-
-* Modified: Added some more aliases: <config/aliases>
-  * clear = cls
-  * Git Fun!
-
-* Added: msysgit, gow, putty.
