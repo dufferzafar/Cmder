@@ -2,16 +2,12 @@
 :: Sets some nice defaults
 :: Created as part of cmder project
 
-:: Setting prompt style
-@for /f "tokens=2 delims=:." %%x in ('chcp') do @set cp=%%x
+:: Used by the rest of the script
+@set rootDir="%~dp0\.."
 
-:: The slow part
-:: World without Unicode is a sad world
-@chcp 65001>nul
-
-:: It has to be lambda, I already made a logo
-@prompt $E[1;32;40m$P$S{git}$S$_$E[1;30;40mλ$S$E[0m
-@chcp %cp%>nul
+:: Change the prompt style
+:: Mmm tasty lamb
+@prompt $E[1;32;40m$P$S{git}$S$_$E[1;30;40m{lamb}$S$E[0m
 
 :: Pick right version of clink
 @if "%PROCESSOR_ARCHITECTURE%"=="x86" (
@@ -19,9 +15,6 @@
 ) else (
     set architecture=64
 )
-
-:: Used by the rest of the script
-@set rootDir="%~dp0\.."
 
 :: Run clink
 @%rootDir%\vendor\clink\clink_x%architecture%.exe inject --quiet --profile %rootDir%\config

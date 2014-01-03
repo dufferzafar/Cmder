@@ -1,7 +1,7 @@
 clear=cls
-ls=ls -F --color $*
+ls=ls --color $*
 
-gl=git log -n 35 --pretty=format:"%C(auto) %h %<|(25) %ar %<|(90) %s %d"
+gl=git log -n 35 --pretty=format:"%C(auto) %h %<|(25) %ar %<|(90) %s %d" $*
 gdf=git diff --full-index
 gd=git diff $*
 
