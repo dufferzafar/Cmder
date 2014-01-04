@@ -1,4 +1,4 @@
-# Cmder
+# Cmder v1.0
 <!-- ![Butler](/Data/butler.png) -->
 
 A fork of the awesome [Cmder](https://github.com/bliker/cmder/) project.
@@ -61,6 +61,10 @@ Here are some of the most used ones:
 * `Shift+PgUp/PgDn` : Scroll buffer by page
 
 ## <a name="todo"></a>Todo
+
+* Commands to add
+  * unalias
+  * history
 
 * The launcher is broken, as the conemu path has changed.
 

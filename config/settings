@@ -1,13 +1,7 @@
 # name: Ctrl-D exits
 # type: bool
-# Ctrl-D exits the process when it is pressed on an empty line.
+# Ctrl-D exits cmd.exe when it is pressed on an empty line.
 ctrld_exits = 1
-
-# name: Ctrl-C raises exception
-# type: bool
-# When Ctrl-C is pressed Clink will pass it thourgh to the parent by raising the
-# appropriate exception.
-passthrough_ctrlc = 1
 
 # name: Esc clears line
 # type: bool
@@ -26,8 +20,14 @@ match_colour = -1
 # Changes how Clink will match executables when there is no path separator on
 # the line. 0 = PATH only, 1 = PATH and CWD, 2 = PATH, CWD, and directories. In
 # all cases both executables and directories are matched when there is a path
-# separator present.
+# separator present. A value of -1 will disable executable matching completely.
 exec_match_style = -1
+
+# name: Whitespace prefix matches files
+# type: bool
+# If the line begins with whitespace then Clink bypasses executable matching and
+# will match all files and directories instead.
+space_prefix_match_files = 1
 
 # name: Prompt colour
 # type: int
@@ -40,4 +40,9 @@ prompt_colour = -1
 # Automatically answers cmd.exe's 'Terminate batch job (Y/N)?' prompts. 0 =
 # disabled, 1 = answer 'Y', 2 = answer 'N'.
 terminate_autoanswer = 0
+
+# name: Persistent command history
+# type: bool
+# Enable or disable the saving and loading of command history between sessions.
+persist_history = 1
 
