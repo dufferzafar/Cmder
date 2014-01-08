@@ -31,15 +31,14 @@ See the ".gitignore" file for the entire structure.
   * No new tab confirmation
   * Removed the "-new_console:d:%USERPROFILE%" part to launch in any directory.
 
-* Modified: init.bat <vendor/init.bat>
+* Modified: Initiation script <vendor/init.bat>
   * The %PATH% directory.
 
-* Modified: alias.bat <config/alias.bat>
+* Modified: Alias command <config/alias.bat>
   * Run alias command without any parameters to list all aliases.
 
-* Modified: Added some more aliases: <config/aliases>
-  * clear = cls
-  * Git Fun!
+* Modified: Alias list <config/aliases>
+  * Lots of git related aliases.
 
 * Added: msysgit, gow, putty. <vendor/>
 
@@ -49,18 +48,24 @@ Clink and ConEmu-Maximus5 together offer a wide range of hotkeys.
 
 Here are some of the most used ones:
 
-* `Alt + ` ` Hides the console.
+* `Alt+~` : Hides the console.
 * `Alt+H` : List Clink Hotkeys
 * `Alt+Win+P` : ConEmu Settings
+
+* `Up/Dn` : Cycle through history
 
 * `Ctrl+W` : Close current tab
 * `Ctrl+Shift+W` : Close the current process of console
 
-* `Ctrl+PgUp/PgDn` : Cycle through tabs 
+* `PgUp/PgDn` : Scroll buffer by page
 * `Shift+Up/Dn` : Scroll buffer by line
-* `Shift+PgUp/PgDn` : Scroll buffer by page
+* `Ctrl+PgUp/PgDn` : Cycle through tabs 
 
 ## <a name="todo"></a>Todo
+
+* Add Alias to bash shell
+
+* MinGW
 
 * Commands to add
   * unalias
@@ -74,7 +79,6 @@ Here are some of the most used ones:
 
 * Add Tools:
   * Update tools used in GOW
-  * FAR
   * Commandline Sysinternals Tools
   * Nirsoft Utilities
 

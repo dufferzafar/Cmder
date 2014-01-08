@@ -15,8 +15,10 @@ gch=git checkout $*
 
 gs=git status $*
 ga=git add -A $*
-gc=git commit -m $*
-gce=git commit -e $*
+gc=git commit $*
+
+gac=git add -A :/ $T git commit -m $*
+gace=git add -A :/ $T git commit -e $*
 
 gpl=git pull $*
-gp=git push origin master
+gp=git push $*

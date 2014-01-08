@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <key name="Software">
 	<key name="ConEmu">
-		<key name=".Vanilla" modified="2014-01-04 22:30:01" build="131219">
+		<key name=".Vanilla" modified="2014-01-08 21:17:52" build="131219">
 			<value name="ColorTable00" type="dword" data="00000000"/>
 			<value name="ColorTable01" type="dword" data="00ee0000"/>
 			<value name="ColorTable02" type="dword" data="0000cd00"/>
@@ -50,7 +50,7 @@
 			<value name="ClipboardBashMargin" type="hex" data="00"/>
 			<value name="ClipboardTrimTrailing" type="hex" data="02"/>
 			<value name="ClipboardEOL" type="hex" data="00"/>
-			<value name="ClipboardArrowStart" type="hex" data="00"/>
+			<value name="ClipboardArrowStart" type="hex" data="01"/>
 			<value name="ClipboardAllLines" type="hex" data="01"/>
 			<value name="ClipboardFirstLine" type="hex" data="01"/>
 			<value name="ClipboardClickPromptPosition" type="hex" data="02"/>
@@ -157,7 +157,7 @@
 			<value name="ComSpec.Path" type="string" data=""/>
 			<value name="ConsoleTextSelection" type="hex" data="01"/>
 			<value name="CTS.AutoCopy" type="hex" data="01"/>
-			<value name="CTS.EndOnTyping" type="hex" data="00"/>
+			<value name="CTS.EndOnTyping" type="hex" data="01"/>
 			<value name="CTS.EndOnKeyPress" type="hex" data="00"/>
 			<value name="CTS.Freeze" type="hex" data="00"/>
 			<value name="CTS.SelectBlock" type="hex" data="01"/>
@@ -253,8 +253,8 @@
 			<value name="TabsLocation" type="hex" data="00"/>
 			<value name="TabSelf" type="hex" data="01"/>
 			<value name="TabLazy" type="hex" data="01"/>
-			<value name="TabRecent" type="hex" data="01"/>
-			<value name="TabDblClick" type="dword" data="00000001"/>
+			<value name="TabRecent" type="hex" data="00"/>
+			<value name="TabDblClick" type="dword" data="00000000"/>
 			<value name="TabsOnTaskBar" type="hex" data="00"/>
 			<value name="TaskBarOverlay" type="hex" data="01"/>
 			<value name="TabCloseMacro" type="string" data=""/>
@@ -357,8 +357,8 @@
 			<value name="Multi.NewSplitV" type="dword" data="00001000"/>
 			<value name="Multi.NewSplitH" type="dword" data="80808000"/>
 			<value name="Multi.NewAttach" type="dword" data="00005b00"/>
-			<value name="Multi.Next" type="dword" data="00001122"/>
-			<value name="Multi.NextShift" type="dword" data="00001121"/>
+			<value name="Multi.Next" type="dword" data="00001121"/>
+			<value name="Multi.NextShift" type="dword" data="00001122"/>
 			<value name="Multi.Recreate" type="dword" data="00005b00"/>
 			<value name="Multi.AltCon" type="dword" data="80808000"/>
 			<value name="Multi.Scroll" type="dword" data="00005b00"/>
@@ -395,10 +395,10 @@
 			<value name="Key.FullScreen" type="dword" data="0000120d"/>
 			<value name="Key.SysMenu" type="dword" data="80808000"/>
 			<value name="Key.SysMenu2" type="dword" data="00001102"/>
-			<value name="Key.BufUp" type="dword" data="00001026"/>
-			<value name="Key.BufDn" type="dword" data="00001028"/>
-			<value name="Key.BufPgUp" type="dword" data="00001021"/>
-			<value name="Key.BufPgDn" type="dword" data="00001022"/>
+			<value name="Key.BufUp" type="dword" data="00001226"/>
+			<value name="Key.BufDn" type="dword" data="00001228"/>
+			<value name="Key.BufPgUp" type="dword" data="80808021"/>
+			<value name="Key.BufPgDn" type="dword" data="80808022"/>
 			<value name="Key.PicViewSlide" type="dword" data="80808000"/>
 			<value name="Key.PicViewSlower" type="dword" data="80808000"/>
 			<value name="Key.PicViewFaster" type="dword" data="80808000"/>
@@ -483,17 +483,17 @@
 			<value name="DndLKey" type="hex" data="00"/>
 			<value name="DndRKey" type="hex" data="a2"/>
 			<value name="WndDragKey" type="dword" data="00121101"/>
-				<key name="Tasks" modified="2014-01-04 22:30:01" build="131219">
+				<key name="Tasks" modified="2014-01-08 21:17:53" build="131219">
 				<value name="Count" type="dword" data="00000006"/>
-						<key name="Task1" modified="2014-01-04 22:30:01" build="131219">
+						<key name="Task1" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="{CMD}"/>
-					<value name="GuiArgs" type="string" data=" /icon &quot;cmd.exe&quot;"/>
+					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="cmd /k %CMDER_ROOT%\vendor\init.bat"/>
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-						<key name="Task2" modified="2014-01-04 22:30:01" build="131219">
+						<key name="Task2" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="{Github}"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;D:\I, Coder\@ Github&quot;"/>
 					<value name="Cmd1" type="string" data="cmd /k %CMDER_ROOT%\vendor\init.bat"/>
@@ -501,7 +501,7 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-						<key name="Task3" modified="2014-01-04 22:30:01" build="131219">
+						<key name="Task3" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="{Octopress}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;D:\I, Coder\@ Github\dufferzafar.github.com&quot;"/>
@@ -509,7 +509,7 @@
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task4" modified="2014-01-04 22:30:01" build="131219">
+						<key name="Task4" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="{Putty}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>
@@ -517,7 +517,7 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Cmd1" type="string" data="%CMDER_ROOT%\vendor\putty\putty.exe"/>
 				</key>
-						<key name="Task5" modified="2014-01-04 22:30:01" build="131219">
+						<key name="Task5" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="{PowerShell}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;%userprofile%&quot;"/>
@@ -525,7 +525,7 @@
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task6" modified="2014-01-04 22:30:01" build="131219">
+						<key name="Task6" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="{Git Shell}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>
@@ -534,11 +534,11 @@
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
 			</key>
-				<key name="Apps" modified="2014-01-04 22:30:01" build="131219">
+				<key name="Apps" modified="2014-01-08 21:17:53" build="131219">
 				<value name="Count" type="dword" data="00000000"/>
 			</key>
-				<key name="Colors" modified="2014-01-04 22:30:01" build="131219">
-			<key name="Palette1" modified="2014-01-04 22:30:01" build="131219">
+				<key name="Colors" modified="2014-01-08 21:17:53" build="131219">
+			<key name="Palette1" modified="2014-01-08 21:17:53" build="131219">
 					<value name="Name" type="string" data="Monokai"/>
 					<value name="ExtendColors" type="hex" data="00"/>
 					<value name="ExtendColorIdx" type="hex" data="0e"/>

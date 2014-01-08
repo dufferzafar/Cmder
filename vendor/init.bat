@@ -16,9 +16,6 @@
     set architecture=64
 )
 
-:: Run clink
-@%rootDir%\vendor\clink\clink_x%architecture%.exe inject --quiet --profile %rootDir%\config
-
 :: Prepare for msysgit
 :: Even I don't know, copy-pasted from their .bat
 @set PLINK_PROTOCOL=ssh
@@ -31,6 +28,9 @@
 
 :: Used by "git"
 @set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;
+
+:: Run clink
+@%rootDir%\vendor\clink\clink_x%architecture%.exe inject --quiet --profile %rootDir%\config
 
 :: Add aliases
 :: These little thingies are life savers, believe me.
