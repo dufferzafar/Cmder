@@ -42,6 +42,12 @@ See the ".gitignore" file for the entire structure.
 
 * Added: msysgit, gow, putty. <vendor/>
 
+* Added: .bashrc for Bash. 
+
+  Create a symlink in your %UserProfile% directory to this file and you are done. 'chdir' to your %UserProfile% and issue something like:
+
+    mklink .bashrc "%FolderWhereYouDownloadedCmderTo%\config\.bashrc"
+
 ## <a name="hotkeys"></a>List of Hotkeys
 
 Clink and ConEmu-Maximus5 together offer a wide range of hotkeys.
@@ -62,8 +68,6 @@ Here are some of the most used ones:
 * `Ctrl+PgUp/PgDn` : Cycle through tabs 
 
 ## <a name="todo"></a>Todo
-
-* Add Alias to bash shell
 
 * MinGW
 
