@@ -40,6 +40,9 @@ vendor/msysgit
 # Who needs cygwin...
 vendor/gow
 
+# GnuWin32
+vendor/GetGnuWin32
+
 # Oh my ssh!
 vendor/putty
 

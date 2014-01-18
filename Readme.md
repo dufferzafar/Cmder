@@ -69,24 +69,31 @@ Here are some of the most used ones:
 
 ## <a name="todo"></a>Todo
 
-* MinGW
+* Dotfiles from github
+* Better Git Commit aliases
 
-* Commands to add
-  * unalias
-  * history
+* Autohotkey Based Launcher
+  * The default launcher is broken, as the conemu path has changed.
 
-* The launcher is broken, as the conemu path has changed.
+* Clink Lua:
+  * Git - (branch:dirttype)
 
-* `Ctrl+Shift+T` - Load last open tab
-
-* Keyboard Text Selection
+* Prompt modifications in .bashrc
 
 * Add Tools:
+  * MinGW
+  * GnuWin32
+  * Nirsoft Utilities
   * Update tools used in GOW
   * Commandline Sysinternals Tools
-  * Nirsoft Utilities
 
-* Setup
+* Commands:
+  * unalias
+
+* `Ctrl+Shift+T` - Load last open tab
+* Keyboard Text Selection
+
+* Portable Install Setup
   * Launch in directory
   * Hotkey via AHK 
   * Inno Setup Script

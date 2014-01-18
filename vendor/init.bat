@@ -16,21 +16,20 @@
     set architecture=64
 )
 
+:: Run clink
+@%rootDir%\vendor\clink\clink_x%architecture%.exe inject --quiet --profile %rootDir%\config
+
 :: Prepare for msysgit
 :: Even I don't know, copy-pasted from their .bat
 @set PLINK_PROTOCOL=ssh
-@if not defined TERM set TERM=msys
-
 @set git_install_root=%rootDir%\vendor\msysgit
-
-:: Add 3rd Party Stuff
-@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\gow\bin;
+@if not defined TERM set TERM=msys
 
 :: Used by "git"
 @set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;
 
-:: Run clink
-@%rootDir%\vendor\clink\clink_x%architecture%.exe inject --quiet --profile %rootDir%\config
+:: Add 3rd Party Stuff
+@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\gow\bin;
 
 :: Add aliases
 :: These little thingies are life savers, believe me.
