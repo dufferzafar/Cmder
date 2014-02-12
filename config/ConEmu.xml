@@ -483,9 +483,9 @@
 			<value name="DndLKey" type="hex" data="00"/>
 			<value name="DndRKey" type="hex" data="a2"/>
 			<value name="WndDragKey" type="dword" data="00121101"/>
-				<key name="Tasks" modified="2014-01-08 21:17:53" build="131219">
+				<key name="Tasks" modified="2014-02-07 11:52:20" build="131219">
 				<value name="Count" type="dword" data="00000006"/>
-						<key name="Task1" modified="2014-01-08 21:17:53" build="131219">
+						<key name="Task1" modified="2014-02-07 11:52:20" build="131219">
 					<value name="Name" type="string" data="{CMD}"/>
 					<value name="GuiArgs" type="string" data=""/>
 					<value name="Cmd1" type="string" data="cmd /k %CMDER_ROOT%\vendor\init.bat"/>
@@ -493,7 +493,7 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-						<key name="Task2" modified="2014-01-08 21:17:53" build="131219">
+						<key name="Task2" modified="2014-02-07 11:52:20" build="131219">
 					<value name="Name" type="string" data="{Github}"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;D:\I, Coder\@ Github&quot;"/>
 					<value name="Cmd1" type="string" data="cmd /k %CMDER_ROOT%\vendor\init.bat"/>
@@ -501,7 +501,7 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 				</key>
-						<key name="Task3" modified="2014-01-08 21:17:53" build="131219">
+						<key name="Task3" modified="2014-02-07 11:52:20" build="131219">
 					<value name="Name" type="string" data="{Octopress}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;D:\I, Coder\@ Github\dufferzafar.github.com&quot;"/>
@@ -509,7 +509,7 @@
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task4" modified="2014-01-08 21:17:53" build="131219">
+						<key name="Task4" modified="2014-02-07 11:52:20" build="131219">
 					<value name="Name" type="string" data="{Putty}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>
@@ -517,7 +517,7 @@
 					<value name="Count" type="dword" data="00000001"/>
 					<value name="Cmd1" type="string" data="%CMDER_ROOT%\vendor\putty\putty.exe"/>
 				</key>
-						<key name="Task5" modified="2014-01-08 21:17:53" build="131219">
+						<key name="Task5" modified="2014-02-07 11:52:20" build="131219">
 					<value name="Name" type="string" data="{PowerShell}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data="/dir &quot;%userprofile%&quot;"/>
@@ -525,7 +525,7 @@
 					<value name="Active" type="dword" data="00000000"/>
 					<value name="Count" type="dword" data="00000001"/>
 				</key>
-						<key name="Task6" modified="2014-01-08 21:17:53" build="131219">
+						<key name="Task6" modified="2014-02-07 11:52:20" build="131219">
 					<value name="Name" type="string" data="{Git Shell}"/>
 					<value name="Hotkey" type="dword" data="00000000"/>
 					<value name="GuiArgs" type="string" data=""/>

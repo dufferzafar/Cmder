@@ -72,6 +72,8 @@ Here are some of the most used ones:
 * Dotfiles from github
 * Better Git Commit aliases
 
+* [Git Churn](https://github.com/garybernhardt/dotfiles/blob/f0c0ff92209e5aed4fa3ef6faf056eb9944a8f12/bin/git-churn)
+
 * Autohotkey Based Launcher
   * The default launcher is broken, as the conemu path has changed.
 

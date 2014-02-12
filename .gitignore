@@ -4,8 +4,13 @@
 
 # The directory structure:
 
+# Bring back the executables (they are ignored in the global gitignore file)
+!*.exe
+!*.dll
+
 # This folder will be injected to path at runtime
 # bin/
+bin/ag.exe
 
 # All config files are kept here.
 # config/
@@ -16,9 +21,6 @@ config/.history
 # The valve icon is super cool
 # icons/
 
-# Bring back the executables (they are ignored in the global gitignore file)
-!*.exe
-!*.dll
 
 # Software from third parties + the cool 'init' script
 # vendor/

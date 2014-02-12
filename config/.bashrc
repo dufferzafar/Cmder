@@ -1,5 +1,7 @@
 alias gs='git status'
 
+export EDITOR='F:/[Softwares]/[PowerPack]/Cmder/vendor/vim/vim74/vim.exe +star'
+
 # echo -e '\e[37mWelcome to cmder! customized by \e[31mdufferzafar'
 
 # :: Add 3rd Party Stuff
