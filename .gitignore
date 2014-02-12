@@ -5,48 +5,22 @@
 # The directory structure:
 
 # Bring back the executables (they are ignored in the global gitignore file)
-!*.exe
-!*.dll
+*.exe
+*.dll
 
 # This folder will be injected to path at runtime
-# bin/
-bin/ag.exe
-
-# All config files are kept here.
-# config/
+bin/
 
 # Contains the history of commands.
 config/.history
 
-# The valve icon is super cool
-# icons/
-
-
 # Software from third parties + the cool 'init' script
-# vendor/
-
-# Clink is used to give your console a bash-ish feel.
-# vendor/clink
+vendor/
 
 # ConEmu: The heart of Cmder
-# vendor/conemu-maximus5
-
-# Todo: Add more cool stuff and their download URLs here.
-
-# I am ignoring these folders as you'd be better off
-# downloading them from their original location.
-
+# Clink
 # Portable Git
-vendor/msysgit
-
-# Who needs cygwin...
-vendor/gow
-
+# GoW
 # GnuWin32
-vendor/GetGnuWin32
-
-# Oh my ssh!
-vendor/putty
-
-# Vi Improved :)
-vendor/vim
+# Putty
+# Vim 7.4
