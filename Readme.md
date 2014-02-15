@@ -1,9 +1,9 @@
-# Cmder v1.0
-<!-- ![Butler](/Data/butler.png) -->
+# Cmder
+![Screenshot](/screen.jpg)
 
 A fork of the awesome [Cmder](https://github.com/bliker/cmder/) project.
 
-Was customizing it for myself, thought I'd just share it.
+I was customizing it for myself, thought I'd just share it.
 
 I use Autohotkey to pass the current explorer directory as a parameter.
 Without which it'll launch in the directory where "Cmder.bat" is placed.
@@ -73,6 +73,7 @@ Here are some of the most used ones:
 * Better Git Commit aliases
 
 * [Git Churn](https://github.com/garybernhardt/dotfiles/blob/f0c0ff92209e5aed4fa3ef6faf056eb9944a8f12/bin/git-churn)
+* [hr](https://github.com/LuRsT/hr/blob/master/hr)
 
 * Autohotkey Based Launcher
   * The default launcher is broken, as the conemu path has changed.
