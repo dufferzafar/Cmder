@@ -28,8 +28,11 @@
 :: Used by "git"
 @set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;
 
+:: Add Binary Utilities
+@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\file\bin;%rootDir%\vendor\utils;%rootDir%\vendor\gow\bin;%rootDir%\vendor\node-webkit;%rootDir%\vendor\sox;%rootDir%\vendor\imagemagick;
+
 :: Add 3rd Party Stuff
-@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\putty;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\gow\bin;
+@set PATH=%PATH%;%rootDir%\vendor\putty;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\teracopy;
 
 :: Add aliases
 :: These little thingies are life savers, believe me.
