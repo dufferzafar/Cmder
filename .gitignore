@@ -28,3 +28,6 @@ vendor/*
 
 # Cheats - https://github.com/chrisallenlane/cheat
 cheats/*~
+
+# Manpages on Windows, how kewl is that!
+manpages/
