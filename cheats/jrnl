@@ -15,3 +15,6 @@ jrnl --export json
 
 # Entries in a timeframe
 jrnl -from 2009 -until may
+
+# .jrnl_config Sublime
+"editor": "F:\\Powerpack\\Sublime Text 3\\sublime_text.exe -w"

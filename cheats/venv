@@ -1,0 +1,4 @@
+# Better prompt
+# Modify the line in env/Scripts/activate.bat
+
+PROMPT=$E[1;37mIdeaBin>$E[0m %PROMPT%
