@@ -1,7 +1,7 @@
 function git_checkout_match_generator(text, first, last)
    found_matches = false;
-   if (rl_state.line_buffer:find("^git checkout ") or rl_state.line_buffer:find("^gch ")) then
-      has_start_branch = not (rl_state.line_buffer:find("^git checkout[ ]*$") or rl_state.line_buffer:find("^gch[ ]*$"))
+   if (rl_state.line_buffer:find("^gch") or rl_state.line_buffer:find("^gb ")) then
+      has_start_branch = not (rl_state.line_buffer:find("^gch[ ]*$") or rl_state.line_buffer:find("^gb[ ]*$"))
       for line in io.popen("git branch 2>nul"):lines() do
          local m = line:match("[%* ] (.+)$")
          if m then
