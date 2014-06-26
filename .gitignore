@@ -25,3 +25,6 @@ vendor/*
 # GnuWin32
 # Putty
 # Vim 7.4
+
+# Cheats - https://github.com/chrisallenlane/cheat
+cheats/*~
