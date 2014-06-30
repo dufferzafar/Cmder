@@ -20,7 +20,6 @@ gdf=git diff -w --full-index
 gd=git diff -w $*
 gdc=git diff -w --cached
 
-gh=git help $*
 gb=git branch -v $*
 gch=git checkout $*
 
@@ -28,6 +27,8 @@ gs=git status
 ga=git add -A $*
 
 gst=git stash
+gsp=git stash pop
+gsa=git stash apply
 
 gc=git commit $*
 gcm=git commit --amend
