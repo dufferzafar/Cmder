@@ -52,5 +52,10 @@
 @set DEFAULT_CHEAT_DIR=F:\Powerpack\Cmder\cheats
 @set CHEATCOLORS=true
 
+:: Oh, the hacks I make
+:: This one here is for 't - the commandline twitter client'
+:: https://github.com/sferik/t/issues/107
+@set SSL_CERT_FILE=C:\Ruby193\cacert.pem
+
 :: Feel free to modify/remove
 @echo [3;1mWelcome to cmder! customized by [31;mdufferzafar
