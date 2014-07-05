@@ -1,0 +1,7 @@
+# Post a new status update
+t update "Tweeting from the command line. Does that make me special? #t"
+
+# If you're having some weird ssl certificates error, try running this first
+# Read more here: https://github.com/sferik/t/issues/107
+set SSL_CERT_FILE=C:\Ruby193\cacert.pem
+

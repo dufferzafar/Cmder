@@ -1,0 +1,4 @@
+# zip
+
+# Package and compress (archive) files into zip file
+zip -r {{compressed.zip}} {{/path/to/dir1 /path/to/dir2 /path/to/file}}

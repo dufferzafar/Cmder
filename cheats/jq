@@ -1,3 +1,2 @@
 # Really basic filter with color
-
 jq "." -C

@@ -1,0 +1,2 @@
+# Convert all line endings from Unix to Dos
+forfiles /S /M *.scss /C "cmd /c unix2dos @path"

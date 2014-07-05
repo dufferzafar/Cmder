@@ -1,0 +1,2 @@
+# Remove extensions from files
+for i in ./*.a; do mv -i "$i" "${i%.a}"; done
