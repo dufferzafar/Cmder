@@ -7,13 +7,6 @@ kill=taskkill /f /t /im $*
 
 rot13=tr a-zA-Z n-za-mN-ZA-M
 
-gl=git log  --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" -n 20
-gla=git log --date=short --pretty=format:"%C(auto) %<(18,trunc) %an %<|(35) %ar %<(70,mtrunc) %s %d" -n 20
-gll=git log --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" $*
-glu=git log --graph --abbrev-commit --decorate --date=relative --format=format:"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)" --all
-gsl=git shortlog -n -s
-gcount=git rev-list HEAD --count
-
 gwhat=git whatchanged --oneline
 
 gdf=git diff -w --full-index
@@ -25,8 +18,10 @@ gch=git checkout $*
 
 gs=git status
 ga=git add -A $*
+gau=git add -u
 
-gst=git stash
+gst=git stash $*
+gstl=git stash list
 gsp=git stash pop
 gsa=git stash apply
 
@@ -50,10 +45,23 @@ gpm=git push origin master
 gm=git merge
 gg=git grep $*
 
+grbc=git rebase --continue
+grbs=git rebase --skip
+
+gsl=git shortlog -n -s
+gcount=git rev-list HEAD --count
+gl=git log  --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" -n 20
+gla=git log --date=short --pretty=format:"%C(auto) %<(18,trunc) %an %<|(35) %ar %<(70,mtrunc) %s %d" -n 20
+gll=git log --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" $*
+glu=git log --graph --abbrev-commit --decorate --date=relative --format=format:"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)" --all
+
 ea=env\Scripts\activate.bat
 ed=env\Scripts\deactivate.bat
 epip=env\Scripts\pip $*
 venv=virtualenv $*
+
+pip2=C:\Python27\Scripts\pip.exe $*
+venv2=C:\Python27\Scripts\virtualenv.exe $*
 
 rika=ssh -p 10025 dufferzafar@zaphod.musicbrainz.org
 
@@ -62,3 +70,4 @@ subl="F:\PowerPack\Sublime Text 3\sublime_text.exe $*"
 jrnl="F:\Powerpack\Cmder\vendor\jrnl\env\Scripts\jrnl.exe" $*
 cheat="F:\Powerpack\Cmder\vendor\cheat\env\Scripts\python.exe" "F:\Powerpack\Cmder\vendor\cheat\env\Scripts\cheat" $*
 httpie="F:\Powerpack\Cmder\vendor\httpie\env\Scripts\http.exe" $*
+beet="F:\Powerpack\Cmder\vendor\beets\env\Scripts\beet.exe" $*
