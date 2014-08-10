@@ -1,0 +1,15 @@
+# Porcess all the files in the current directory:
+massren
+
+# Process all the JPEGs in the specified directory:
+massren /path/to/photos/*.jpg
+
+# Undo the changes done by the previous operation:
+massren --undo /path/to/photos/*.jpg
+
+# Set VIM as the default text editor:
+massren --config editor vim
+
+# List config values:
+massren --config
+

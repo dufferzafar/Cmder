@@ -1,2 +1,13 @@
 # Really basic filter with color
 jq "." -C
+
+#############################################
+# The following were created for my own usage
+# and may not be of much use to you
+#############################################
+
+# Names of all plugins from the Picard plugins data
+jq ".plugins | .[] | .name" -C < plugins.json
+
+# Find all links from Melange data for Soccer
+jq ".projects | .[] | .link" < 2009.json > 2009.links
