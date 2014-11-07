@@ -28,6 +28,8 @@ if not exist %MFILE% (
   goto git
 )
 
+@set PATH=%PATH%;F:\Powerpack\Cmder\vendor\groff\bin;
+
 groff -Tascii -pet -mandoc -P-c %MFILE% | less -irs
 goto end
 

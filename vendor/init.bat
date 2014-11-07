@@ -29,13 +29,13 @@
 @set PATH=%PATH%;%git_install_root%\bin;%git_install_root%\cmd;
 
 :: Add Binary Utilities
-@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\utils;%rootDir%\vendor\node-webkit;
+@set PATH=%PATH%;%rootDir%\bin;%rootDir%\vendor\utils;
 
 :: GNU Utils
-@set PATH=%PATH%;F:\Powerpack\Cmder\vendor\groff\bin;%rootDir%\vendor\file\bin;%rootDir%\vendor\gow\bin;
+@set PATH=%PATH%;%rootDir%\vendor\gow\bin;%rootDir%\vendor\UnxUtils\usr\local\wbin;
 
 :: Add Moar 3rd Party Stuff
-@set PATH=%PATH%;%rootDir%\vendor\imagemagick;%rootDir%\vendor\putty;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\teracopy;
+@set PATH=%PATH%;%rootDir%\vendor\vim\vim74;%rootDir%\vendor\google
 
 :: Python 3.3
 @set PATH=%PATH%;C:\Python33\Scripts;
