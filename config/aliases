@@ -1,10 +1,5 @@
 clear=cls
 
-ea=env\Scripts\activate.bat
-ed=env\Scripts\deactivate.bat
-epip=env\Scripts\pip $*
-epy=env\Scripts\python.exe $*
-
 ga=git add -A $*
 gac=git add -A :/ $T git commit -e
 gacm=git add -A :/ $T git commit -m $*
@@ -14,6 +9,7 @@ gb=git branch -v $*
 
 gc=git commit $*
 gch=git checkout $*
+gchm=git checkout master
 gcm=git commit --amend
 gcount=git rev-list HEAD --count
 
@@ -21,7 +17,7 @@ gd=git diff -w $*
 gdc=git diff -w --cached
 gdf=git diff -w --full-index
 
-gf=git fetch
+gf=git fetch $*
 gfu=git fetch upstream $T git rebase upstream/master
 
 gg=git grep $*
@@ -41,6 +37,8 @@ gps=git push origin source
 gr=git reset head $*
 grbc=git rebase --continue
 grbs=git rebase --skip
+grb=git rebase master
+grbi=git rebase -i master
 gru=git remote update
 
 gs=git status
@@ -52,27 +50,49 @@ gstl=git stash list
 
 gwhat=git whatchanged --oneline
 
-kill=taskkill /f /t /im $*
+hb=hub browse $*
+hbb=hub browse -- branches
+hbi=hub browse -- issues
+hbp=hub browse -- pulls
+hbc=hub browse -- commits
+hbw=hub browse -- wiki
+hbm=hub browse -- milestones
+hpr=hub pull-request $*
 
-ls=ls --color --width=115 -F $*
-
-mysql="C:\xampp\mysql\bin\mysql.exe" $*
-
-now=time /t $T date /t
-
+alembic = env\Scripts\alembic.exe $*
+ea=env\Scripts\activate.bat
+ed=env\Scripts\deactivate.bat
+epip=env\Scripts\pip $*
+epy=env\Scripts\python.exe $*
 pip2=C:\Python27\Scripts\pip.exe $*
-
-rot13=tr a-zA-Z n-za-mN-ZA-M
 
 venv2=C:\Python27\Scripts\virtualenv.exe $*
 venv=virtualenv $*
+
+kill=taskkill /f /t /im $*
+ls=ls --color --width=115 -F $*
+now=time /t $T date /t
+path=echo %path% | sed "s/;/\n/g"| sort | uniq | sed "s/\"//g"
+rot13=tr a-zA-Z n-za-mN-ZA-M
+
+cal="F:\Powerpack\Cmder\vendor\gcal\bin\gcal.exe" $*
+convert="F:\Powerpack\Cmder\vendor\imagemagick\convert.exe" $*
+date="F:\Powerpack\Cmder\vendor\UnxUtils\usr\local\wbin\date.exe" $*
+essentia="F:\Powerpack\Essentia\streaming_extractor_music.exe" $*
+ffmpeg="F:\Powerpack\Cmder\vendor\imagemagick\ffmpeg.exe" $*
+ghost="F:\Powerpack\Cmder\vendor\ghostscript\bin\gswin64c.exe" $*
+javac="C:\Program Files\Java\jdk1.7.0_21\bin\javac.exe" $*
+java="C:\Program Files\Java\jdk1.7.0_21\bin\java.exe" $*
+lj="D:\Compilers\luajit\luajit.exe" $*
+mn="D:\Compilers\Moon\moon.exe" $*
+mysql="C:\xampp\mysql\bin\mysql.exe" $*
+subl="F:\Powerpack\Sublime\subl.exe" $*
+ted="youtube-dl.exe" -c -i -w --no-mtime -f medium --restrict-filenames -o "%(title)s.%(ext)s" $*
+ytb="youtube-dl.exe" -c -i -w --no-mtime -f 18 --restrict-filenames -o "%(title)s.%(ext)s" $*
 
 beet="F:\Powerpack\Cmder\vendor\beets\env\Scripts\beet.exe" $*
 cheat="F:\Powerpack\Cmder\vendor\cheat\env\Scripts\python.exe" "F:\Powerpack\Cmder\vendor\cheat\env\Scripts\cheat" $*
 jrnl="F:\Powerpack\Cmder\vendor\jrnl\env\Scripts\jrnl.exe" $*
 pie="F:\Powerpack\Cmder\vendor\httpie\env\Scripts\http.exe" $*
 scrapy="C:\Python27\python.exe" "C:\Python27\Scripts\scrapy.py" $*
-subl="F:\PowerPack\Sublime\sublime_text.exe $*"
-
-ted="youtube-dl.exe" -c -i -w --no-mtime -f medium --restrict-filenames -o "%(title)s.%(ext)s" $*
-ytb="youtube-dl.exe" -c -i -w --no-mtime -f 18 --restrict-filenames -o "%(title)s.%(ext)s" $*
+sub="F:\Powerpack\Cmder\vendor\subliminal\env2\Scripts\subliminal.exe" -l en -- $*
