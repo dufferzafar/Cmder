@@ -70,6 +70,12 @@ Here are some of the most used ones:
 
 ## <a name="todo"></a>Todo
 
+* Inno/NSIS Setup Script
+  * Add AHK Launcher to startup
+  * Pack only core files
+  * Download everything else
+  * ConEmu, Clink, Git, GnuTools etc.
+
 * Dotfiles from github
 * Better Git Commit aliases
 
@@ -77,19 +83,12 @@ Here are some of the most used ones:
 * [hr](https://github.com/LuRsT/hr/blob/master/hr)
 * [Z](https://github.com/rupa/z)
 
-* Autohotkey Based Launcher
-  * The default launcher is broken, as the conemu path has changed.
-
 * Clink Lua:
   * Git - (branch:dirttype)
 
 * Prompt modifications in .bashrc
 
 * Add Tools:
-  * MinGW
-  * GnuWin32
-  * Nirsoft Utilities
-  * Update tools used in GOW
   * Commandline Sysinternals Tools
 
 * Commands:
@@ -97,8 +96,3 @@ Here are some of the most used ones:
 
 * `Ctrl+Shift+T` - Load last open tab
 * Keyboard Text Selection
-
-* Portable Install Setup
-  * Launch in directory
-  * Hotkey via AHK 
-  * Inno Setup Script
