@@ -57,5 +57,10 @@
 :: https://github.com/sferik/t/issues/107
 @set SSL_CERT_FILE=C:\Ruby193\cacert.pem
 
+:: The offical Github application fucks up 'credential.helper'
+:: But I do like to use that app once in a while to view logs and stuff.
+:: So, we just restore the settings everytime.
+@copy "D:\Github\.gitconfig" "C:\Users\dufferzafar\.gitconfig" /Y 1>nul
+
 :: Feel free to modify/remove
 @echo [3;1mWelcome to cmder! customized by [31;mdufferzafar
