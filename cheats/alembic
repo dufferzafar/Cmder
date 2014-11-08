@@ -1,0 +1,5 @@
+# Generate a new revision
+alembic revision --autogenerate -m "Message"
+
+# Upgrade Head
+alembic upgrade head
