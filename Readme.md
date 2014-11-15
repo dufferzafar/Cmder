@@ -2,6 +2,8 @@
 
 ![Screenshot](/screen.jpg)
 
+*Note: This repo only contains core code files and not the executables, which means you can't just `git clone` it and expect things to work. I am planning to create a Setup that would allow you to install it.*
+
 A fork of the awesome [Cmder](https://github.com/bliker/cmder/) project.
 
 I was customizing it for myself, thought I'd just share it.
@@ -12,6 +14,7 @@ Without which it'll launch in the directory where "Cmder.bat" is placed.
 I've added "msysgit", "gow", "putty", "vim" for myself. They are in the vendor folder. You can place other 3rd party stuff there too.
 
 See the ".gitignore" file for the entire structure.
+
 
 ## Table of Contents
 
