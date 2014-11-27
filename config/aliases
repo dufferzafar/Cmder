@@ -1,11 +1,17 @@
 clear=cls
 
+grep=grep -nRi $*
+
 ga=git add -A $*
 gac=git add -A :/ $T git commit -e
 gacm=git add -A :/ $T git commit -m $*
 gau=git add -u
 
 gb=git branch -v $*
+
+gbb=git bisect bad $*
+gbg=git bisect good $*
+gbr=git bisect reset $*
 
 gc=git commit $*
 gch=git checkout $*
@@ -22,7 +28,7 @@ gfu=git fetch upstream $T git rebase upstream/master
 
 gg=git grep $*
 
-gl=git log  --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" -n 20
+gl=git log --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" -n 20 $1
 gla=git log --date=short --pretty=format:"%C(auto) %<(18,trunc) %an %<|(35) %ar %<(70,mtrunc) %s %d" -n 20
 glc=git --no-pager log --format=%B $*
 gll=git log --date=short --pretty=format:"%C(auto) %h %ad %<|(35)%ar %<(70,mtrunc) %s %d" $*
