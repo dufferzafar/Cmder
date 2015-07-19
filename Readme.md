@@ -1,5 +1,7 @@
 # Cmder
 
+*Unmaintained:  I've  now moved on to Linux Land, so this repo is not maintained now. In case you're interested I have all my Ubuntu dotfiles [here](https://github.com/dufferzafar/dotfiles).*  
+
 ![Screenshot](/screen.jpg)
 
 *Note: This repo only contains core code files and not the executables, which means you can't just `git clone` it and expect things to work. I am planning to create a Setup that would allow you to install it.*
