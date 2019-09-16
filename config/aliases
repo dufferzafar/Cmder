@@ -13,7 +13,7 @@ gbb=git bisect bad $*
 gbg=git bisect good $*
 gbr=git bisect reset $*
 
-gc=git commit $*
+gc=git commit -m $
 gch=git checkout $*
 gchm=git checkout master
 gcm=git commit --amend
